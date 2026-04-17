@@ -1,6 +1,6 @@
 # The E3 Framework: Effective, Efficient, Elegant
 
-[![DOI](https://img.shields.io/badge/DOI-Pending-blue)](https://zenodo.org)
+[![DOI](https://img.shields.io/badge/DOI-10.5281/zenodo.19634683-blue)](https://doi.org/10.5281/zenodo.19634683)
 [![License: Hybrid](https://img.shields.io/badge/License-Apache--2.0%20%7C%20CC--BY--4.0-blue)](LICENSE)
 
 > **"Stop manually tweaking hyperparameters. Start programming the researcher."**
@@ -33,7 +33,7 @@ This project uses the **Autoresearch** methodology to find the best iteration of
 
 This framework is the result of formal academic research. If you use it in your own research or software, please cite it using the information in [CITATION.cff](CITATION.cff).
 
-**Academic Publication (Preprint)**: [Link to TechRxiv/arXiv Pending]
+**Academic Publication (Preprint)**: [Link to TechRxiv/arXiv 10.5281/zenodo.19634683]
 
 ---
 
