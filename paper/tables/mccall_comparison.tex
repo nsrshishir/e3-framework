@@ -1,0 +1,88 @@
+% ============================================================
+% MCCALL QUALITY FACTORS COMPARISON TABLE
+% ============================================================
+
+\begin{table*}[t]
+\centering
+\caption{Detailed Comparison: E3 Framework vs McCall's Software Quality Factors}
+\label{tab:mccall_comparison}
+\small
+\begin{tabularx}{\textwidth}{@{}l l X X@{}}
+\toprule
+\textbf{Category} & \textbf{McCall Factor} & \textbf{Definition} & \textbf{E3 Mapping \& Extensions} \\
+\midrule
+
+\multirow{5}{*}{\textbf{Product Operation}} & 
+Correctness & 
+Extent to which a program satisfies its specifications and accomplishes its mission &
+\textbf{$E_1$}: Functional correctness + AI alignment (ensuring specifications reflect genuine intent) \\
+
+\addlinespace
+
+& Reliability & 
+Extent to which a program can be expected to perform its intended function with required precision &
+\textbf{$E_1$}: Robustness + uncertainty quantification + distribution shift detection \\
+
+\addlinespace
+
+& Efficiency & 
+Extent to which a program fulfills its purpose without waste of resources &
+\textbf{$E_2$}: Extended to include carbon footprint, token economics, cognitive overhead \\
+
+\addlinespace
+
+& Integrity & 
+Extent to which access to software or data by unauthorized persons can be controlled &
+\textbf{$E_1$}: Security + adversarial robustness + prompt injection defense \\
+
+\addlinespace
+
+& Usability & 
+Effort required to learn, operate, prepare input, and interpret output &
+\textbf{$E_3$}: Cognitive accessibility + explainability + actionability \\
+
+\midrule
+
+\multirow{3}{*}{\textbf{Product Revision}} & 
+Maintainability & 
+Effort required to locate and fix an error in an operational program &
+\textbf{$E_2$}: Code maintainability + model versioning + pipeline modularity \\
+
+\addlinespace
+
+& Flexibility & 
+Effort required to modify an operational program &
+\textbf{$E_2$}: Adaptability + online learning + model fine-tuning pipelines \\
+
+\addlinespace
+
+& Testability & 
+Effort required to test a program to ensure it performs its intended function &
+\textbf{$E_1$}: Testing + fairness auditing + bias detection + explanation verification \\
+
+\midrule
+
+\multirow{3}{*}{\textbf{Product Transition}} & 
+Portability & 
+Effort required to transfer a program from one hardware/software environment to another &
+\textbf{$E_2$}: Cross-platform deployment + hardware-agnostic inference \\
+
+\addlinespace
+
+& Reusability & 
+Extent to which a program can be reused in another application &
+\textbf{$E_2$}: Model reuse + transfer learning + prompt template libraries \\
+
+\addlinespace
+
+& Interoperability & 
+Effort required to couple one system with another &
+\textbf{$E_2$}: API standardization + model serving protocols + data exchange formats \\
+
+\bottomrule
+\end{tabularx}
+
+\vspace{0.5em}
+\noindent\textit{Note:} McCall's model organizes quality factors into three categories: Product Operation, Product Revision, and Product Transition. E3 maps these factors across its three pillars while extending each with AI-specific considerations. The E3 Framework adds explicit treatment of ethical governance ($E_1$), computational sustainability ($E_2$), and explainability ($E_3$) that McCall's model does not address.
+
+\end{table*}

@@ -1,0 +1,687 @@
+\documentclass[11pt,a4paper]{article}
+
+% --- Packages ---
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage{setspace}
+\usepackage{titlesec}
+\usepackage{times}
+\usepackage{cite}
+\usepackage{float}
+\usepackage{multicol}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning,calc}
+\usepackage{multirow}
+
+% Theorem environments
+\newtheorem{definition}{Definition}
+\newtheorem{proposition}{Proposition}
+\newtheorem{hypothesis}{Hypothesis}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue
+}
+
+\titleformat{\section}{\Large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\large\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries}{\thesubsubsection}{1em}{}
+
+\onehalfspacing
+
+\title{\textbf{The E3 Framework: A Conceptual Framework for Software Quality in the Age of Artificial Intelligence}}
+\author{%
+    Md. Niaj Shahriar Shishir\\Head of Technology, Metamorphosis Ltd\\
+    \texttt{nsrshishir550@gmail.com}
+}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+% ============================================================
+% ABSTRACT
+% ============================================================
+\begin{abstract}
+\noindent
+The integration of artificial intelligence into mainstream software development has precipitated a paradigm shift from deterministic systems---where outputs are fully predictable given inputs---to probabilistic systems, where outputs are stochastic, context-dependent, and ethically consequential. This transition creates a critical gap: traditional software quality models were designed for deterministic paradigms and struggle to address the unique challenges posed by machine learning systems, large language models, and AI-driven applications. This paper introduces the \textbf{E3 Framework}, a \emph{conceptual framework} organized around three mutually reinforcing pillars: \emph{Effectiveness} ($E_1$: alignment with user needs, ethical imperatives, and SOLID principles), \emph{Efficiency} ($E_2$: computational sustainability, resource optimization, and DRY/KISS principles), and \emph{Elegance} ($E_3$: cognitive accessibility, human-computer interaction excellence, and explainable AI). Formal mathematical definitions are presented for each pillar, along with a trade-off function enabling principled priority-setting and testable hypotheses for future empirical validation. Through comparative analysis with ISO 25010, McCall's quality factors, NIST AI RMF, and the EU AI Act, E3 is demonstrated to synthesize and extend existing quality models with AI-specific concerns: alignment and fairness for effectiveness; computational sustainability for efficiency; and explainability with actionability for elegance. The framework is operationalized through specific metrics with formulas and thresholds, with its application demonstrated through four illustrative hypothetical scenarios across healthcare, recommendation systems, code assistance, and autonomous vehicles. The framework addresses a critical need: preserving the hard-won wisdom of traditional software engineering while extending it to govern probabilistic, AI-driven systems that are simultaneously reliable, sustainable, and humane. The paper concludes with a transparent discussion of validity threats and a research agenda for empirical validation.
+\end{abstract}
+
+\noindent\textbf{Keywords:} Software Engineering, Artificial Intelligence, Machine Learning, Software Quality, AI Ethics, Explainable AI, Computational Sustainability, MLOps, Prompt Engineering
+
+\vspace{1em}
+
+% ============================================================
+% 1. INTRODUCTION
+% ============================================================
+\section{Introduction}
+
+\subsection{The Deterministic Foundations of Software Engineering}
+
+For over six decades, software engineering matured under a deterministic paradigm: given identical inputs, a correctly implemented program produces identical outputs. This foundational assumption enabled the development of rigorous methodologies, testing frameworks, and quality assurance practices that transformed software from an artisanal craft into a disciplined engineering profession. Fred Brooks's seminal observation that ``complexity is the essential difficulty of software'' \cite{brooks1975mythical} established the intellectual foundation for decades of research into managing this complexity through abstraction, modularity, and structured design.
+
+The discipline responded with principles that have stood the test of time. Barry Boehm's spiral model \cite{boehm1988spiral} introduced risk-driven iterative development. Kent Beck's Extreme Programming \cite{beck2000extreme} emphasized adaptive planning and continuous improvement. Robert C. Martin's SOLID principles \cite{martin2017clean} provided architectural guidelines that remain cornerstones of object-oriented design. The Pragmatic Programmer philosophy \cite{hunt1999pragmatic} distilled wisdom about DRY (Don't Repeat Yourself), orthogonality, and the importance of writing code that communicates intent. These principles share a common assumption: that software behavior can be specified, verified, and reproduced deterministically.
+
+
+\subsection{The Rise of Probabilistic Systems}
+
+The emergence of machine learning and artificial intelligence has fundamentally disrupted this equilibrium. A large language model does not guarantee deterministic output; its behavior is shaped by training data distributions, sampling parameters, and prompt context. As Brown et al. demonstrated with GPT-3 \cite{brown2020language}, a single model can exhibit remarkable few-shot learning capabilities across diverse tasks, yet produce outputs that vary between invocations even with identical inputs. This stochastic nature represents not a bug but a fundamental architectural difference.
+
+Sculley et al. documented the profound implications of this shift in their influential paper on technical debt in machine learning systems \cite{sculley2015hidden}. They identified unique challenges that classical design patterns were never intended to address: ``pipeline jungles'' created by ad-hoc data transformations, ``entanglement'' where changing any input feature affects all predictions, and ``hidden feedback loops'' where models influence their own training data. Amershi et al. extended this analysis through empirical studies at Microsoft \cite{amershi2019software}, finding that ML-enabled systems require fundamentally different engineering practices across data management, model versioning, and deployment pipelines.
+
+The implications extend beyond technical architecture. Russell \cite{russell2019human} argued that the alignment problem---ensuring AI systems pursue objectives that genuinely reflect human intent---represents a core challenge distinct from traditional correctness criteria. A recommendation system may be technically accurate while systematically discriminating against protected groups. A language model may generate fluent prose while hallucinating false information. The very notion of ``correctness'' becomes contested in probabilistic systems.
+
+\subsection{The Gap: Traditional Methodologies Meet AI Challenges}
+
+Existing software development methodologies address fragments of this transition but lack a unified quality model spanning both classical and AI-driven development. Agile methodologies excel at iterative delivery and customer feedback but provide limited guidance for managing model uncertainty or ensuring fairness \cite{beck2000extreme}. DevOps practices automate deployment pipelines but were designed for deterministic services where integration tests can verify behavior \cite{humble2010continuous}. MLOps extends DevOps for machine learning but often treats ethical considerations and explainability as secondary concerns \cite{sridhar2022mlops}.
+
+This paper introduces the E3 Framework as a response to this methodological gap. Rather than discarding the hard-won principles of traditional software engineering, E3 extends them into the probabilistic domain through three mutually reinforcing pillars:
+
+\begin{enumerate}[leftmargin=2em]
+    \item \textbf{Effectiveness ($E_1$)}---software that solves the right problem, for the right people, within ethical boundaries.
+    \item \textbf{Efficiency ($E_2$)}---software that minimizes waste in computation, code, and cognition.
+    \item \textbf{Elegance ($E_3$)}---software that is cognitively accessible, aesthetically coherent, and transparently explainable.
+\end{enumerate}
+
+\subsection{Paper Organization and Contributions}
+
+This paper makes the following contributions:
+
+\begin{enumerate}[leftmargin=2em]
+    \item \textbf{Formal Definitions:} We provide mathematically precise definitions for each E3 pillar, enabling rigorous reasoning about software quality (Section~\ref{sec:formal_definitions}).
+    \item \textbf{Comparative Analysis:} We position E3 relative to established quality models (ISO 25010, McCall) and AI governance frameworks (NIST AI RMF, EU AI Act), demonstrating both continuity and extensions (Section~\ref{sec:related_work}).
+    \item \textbf{Metrics Operationalization:} We define specific, measurable metrics for each pillar with formulas, target thresholds, and collection methodologies (Section~\ref{sec:metrics_operationalization}).
+    \item \textbf{Illustrative Examples:} We demonstrate framework application through four hypothetical scenarios across diverse domains (Section~\ref{sec:illustrative_examples}).
+    \item \textbf{Validity Analysis:} We transparently address threats to validity and propose a research agenda for empirical validation (Section~\ref{sec:threats_to_validity}).
+\end{enumerate}
+
+We explicitly position E3 as a \emph{conceptual framework}---a structured way of thinking about software quality that generates testable hypotheses---rather than a validated methodology. This positioning is honest about the framework's current status while providing a foundation for future empirical research.
+
+% ============================================================
+% 2. FORMAL DEFINITIONS AND THEORETICAL FOUNDATIONS
+% ============================================================
+\input{sections/formal_definitions}
+
+% ============================================================
+% 3. RELATED WORK
+% ============================================================
+\input{sections/related_work}
+
+% Include comparison tables
+\input{tables/iso25010_comparison}
+\input{tables/mccall_comparison}
+
+% ============================================================
+% 4. THE E3 FRAMEWORK
+% ============================================================
+\section{The E3 Framework}
+
+The E3 Framework organizes software quality around three mutually reinforcing pillars: Effectiveness, Efficiency, and Elegance. Each pillar draws on established principles from traditional software engineering while extending them to address the unique challenges of AI-driven systems. Together, they provide a comprehensive quality model applicable across deterministic and probabilistic paradigms.
+
+% Include framework diagram
+\input{figures/e3_framework_diagram}
+
+\subsection{Effectiveness: SOLID Principles, User Alignment, and AI Ethics}
+
+\subsubsection{Traditional Foundations}
+
+Effectiveness, in its classical sense, measures the degree to which software fulfills its specified requirements. Martin's SOLID principles \cite{martin2017clean} provide the architectural foundation for effectiveness:
+
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{Single Responsibility Principle (SRP):} Each module should have one reason to change. In ML systems, this translates to clear separation between data ingestion, feature engineering, model training, and inference components.
+    \item \textbf{Open/Closed Principle (OCP):} Software entities should be open for extension but closed for modification. For ML pipelines, this implies designing feature transformers and model architectures that can be extended without modifying existing code.
+    \item \textbf{Liskov Substitution Principle (LSP):} Subtypes must be substitutable for their base types. This principle guides the design of model interfaces, ensuring that different models can be swapped without breaking downstream consumers.
+    \item \textbf{Interface Segregation Principle (ISP):} Clients should not depend on interfaces they do not use. For ML systems, this suggests separate interfaces for training, prediction, and evaluation.
+    \item \textbf{Dependency Inversion Principle (DIP):} High-level modules should not depend on low-level modules; both should depend on abstractions. This enables dependency injection for model implementations and data sources.
+\end{itemize}
+
+Boehm's value-based software engineering \cite{boehm2006value} extends these structural principles by emphasizing that effectiveness must be evaluated in terms of stakeholder value. A technically correct system that does not address real user needs fails the effectiveness criterion.
+
+\subsubsection{Extension to AI Alignment and Ethics}
+
+In probabilistic systems, effectiveness must expand beyond functional correctness to encompass \emph{alignment}---the assurance that AI behavior reflects human intent and values. Russell \cite{russell2019human} argues that the alignment problem is the central challenge of AI development: systems may optimize for proxy objectives that diverge from what humans actually want.
+
+E3 operationalizes alignment through several mechanisms:
+
+\textbf{Explicit Objective Specification.} Teams must document the true objective of an AI system, distinguishing between proxy metrics (click-through rate, engagement time) and genuine goals (user satisfaction, ethical content consumption). This documentation should be revisited throughout development.
+
+\textbf{Fairness Metrics.} Effectiveness includes fairness across demographic groups. E3 recommends defining fairness constraints during requirements gathering: demographic parity, equalized odds, calibration, or other appropriate metrics \cite{mitchell2019model}. These metrics should be monitored continuously in production.
+
+\textbf{Bias Audits.} Regular audits should assess whether the system exhibits discriminatory behavior. This includes analyzing training data for historical bias, testing model outputs across subgroups, and monitoring for emergent bias in production.
+
+
+\textbf{Transparency Requirements.} Following Gebru et al.'s Datasheets for Datasets \cite{gebru2021datasheets} and Mitchell et al.'s Model Cards \cite{mitchell2019model}, E3 requires documentation of data provenance, model capabilities, limitations, and performance across different contexts. The IEEE 7000-2021 standard \cite{ieee7000:2021} provides a process for integrating these ethical considerations throughout development.
+
+\textbf{Human Oversight.} Critical AI decisions should include human review, particularly in high-stakes domains. E3 recommends implementing escalation mechanisms when model confidence falls below thresholds or when outputs fall outside training distribution.
+
+\subsection{Efficiency: DRY/KISS Principles, Computational Sustainability, and MLOps}
+
+\subsubsection{Traditional Foundations}
+
+The efficiency pillar draws on two foundational principles from the pragmatic programming tradition. Hunt and Thomas's DRY principle \cite{hunt1999pragmatic} holds that every piece of knowledge should have a single, authoritative representation. DRY eliminates redundancy that creates maintenance burden and inconsistency risk. The KISS principle advocates for simplicity, recognizing that complex solutions introduce more opportunities for failure.
+
+Knuth's discipline of optimization \cite{knuth1974structured} provides nuance: premature micro-optimization is counterproductive, but efficiency in critical paths deserves careful attention. The Pareto principle applies: 80\% of execution time typically occurs in 20\% of code. Identifying and optimizing these critical paths yields the greatest efficiency gains.
+
+\subsubsection{Extension to Computational Sustainability}
+
+The efficiency calculus changes dramatically when training a single model can emit as much carbon as five automobiles over their lifetimes \cite{strubell2019energy}. Patterson et al. \cite{patterson2021carbon} demonstrated that architecture choice, data-center energy mix, and hardware utilization can vary carbon emissions by orders of magnitude for equivalent model quality. E3 extends efficiency beyond traditional metrics to encompass \emph{computational sustainability}.
+
+\textbf{Carbon-Aware Development.} Teams should estimate and track the carbon footprint of model training and inference. This includes selecting energy-efficient architectures, utilizing renewable energy sources, and considering model size as a constraint during design.
+
+\textbf{Resource Optimization.} For inference-time systems, efficiency manifests as token economics. Every token sent to a large language model incurs computational cost, latency, and environmental impact. Liu et al.'s research \cite{liu2023lost} demonstrates that longer prompts can be less effective, not merely more expensive.
+
+\textbf{Pipeline Efficiency.} Following Sculley et al.'s analysis \cite{sculley2015hidden}, E3 addresses the ``pipeline jungle'' problem. ML pipelines should be designed with the same modularity principles as traditional software: clear interfaces between stages, minimal data transformation overhead, and elimination of redundant computation.
+
+\subsubsection{MLOps Integration}
+
+E3 integrates with MLOps practices \cite{sridhar2022mlops} while extending them with quality metrics:
+
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{Experiment Tracking:} Systematic recording of hyperparameters, metrics, and artifacts for reproducibility.
+    \item \textbf{Model Versioning:} Treating models as first-class versioned artifacts with clear lineage.
+    \item \textbf{Automated Retraining:} Pipelines that detect drift and trigger retraining with appropriate safeguards.
+    \item \textbf{Cost Monitoring:} Tracking inference costs, latency distributions, and resource utilization.
+\end{itemize}
+
+
+\subsection{Elegance: HCI, UI/UX, and Cognitive Ergonomics for AI Outputs}
+
+\subsubsection{Traditional Foundations}
+
+The elegance pillar synthesizes human-computer interaction research with software engineering principles. Norman's \emph{The Design of Everyday Things} \cite{norman2013design} established that good design makes the system's conceptual model transparent to users. His principles remain foundational:
+
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{Affordances:} The system should clearly indicate what actions are possible.
+    \item \textbf{Signifiers:} Visual or auditory cues should communicate where actions can occur.
+    \item \textbf{Feedback:} The system should immediately acknowledge user actions and communicate internal state.
+    \item \textbf{Mapping:} Controls should map naturally to their effects.
+    \item \textbf{Constraints:} The system should restrict interactions to prevent errors.
+\end{itemize}
+
+Miller's research on cognitive limits \cite{miller1956magical} provides the scientific foundation for information chunking. Human working memory can hold approximately seven (plus or minus two) chunks simultaneously. Elegant interfaces respect this constraint by organizing information into digestible units.
+
+Nielsen's usability heuristics \cite{nielsen1994enhancing} operationalize these principles into actionable guidelines: visibility of system status, match with the real world, user control and freedom, consistency and standards, error prevention, recognition over recall, flexibility and efficiency, aesthetic and minimalist design, error recovery, and help documentation.
+
+\subsubsection{Extension to Cognitive Ergonomics for AI}
+
+AI systems introduce unique challenges for cognitive ergonomics. A model that produces accurate predictions but offers no insight into its reasoning violates the user's need for a coherent conceptual model. Ribeiro et al.'s LIME framework \cite{ribeiro2016should} demonstrated that locally interpretable explanations can substantially increase user trust and enable effective error correction.
+
+E3 extends elegance to AI outputs through several mechanisms:
+
+\textbf{Explainability by Design.} Systems should be designed with explanation mechanisms from the outset, not retrofitted. This includes selecting interpretable models where appropriate, implementing explanation techniques (LIME, SHAP, attention visualization), and designing interfaces that surface explanations appropriately.
+
+\textbf{Confidence Communication.} AI outputs should include calibrated confidence indicators. Users should understand when a system is confident in its output and when it is uncertain. Overconfident systems undermine trust; underconfident systems reduce utility.
+
+\textbf{Graceful Degradation.} Systems should behave sensibly when operating outside their training distribution. Rather than generating confidently wrong outputs, elegant AI systems signal uncertainty or request clarification.
+
+\textbf{Output Formatting.} AI-generated content should respect cognitive limits. Long-form outputs should be structured with clear sections, progressive disclosure, and appropriate summarization. Information density should match user expertise.
+
+\textbf{Interaction Patterns.} AI interfaces should support iterative refinement, allowing users to provide feedback on outputs and guide subsequent generations. This creates a collaborative dynamic rather than a one-shot query-response pattern.
+
+% ============================================================
+% 5. METRICS OPERATIONALIZATION
+% ============================================================
+\input{sections/metrics_operationalization}
+
+% ============================================================
+% 6. E3 FOR PROMPT ENGINEERING
+% ============================================================
+\section{E3 for Prompt Engineering}
+
+Prompt engineering has emerged as a distinct discipline at the intersection of software engineering, linguistics, and cognitive science \cite{brown2020language, wei2022chain}. The E3 Framework offers prompt engineers a structured evaluation model that balances competing concerns unique to this domain. This section adapts each pillar specifically for prompt engineering practice.
+
+\subsection{Effectiveness in Prompts: Alignment and Accuracy}
+
+An effective prompt produces outputs that are correct, relevant, and aligned with the user's intent. This requires clear specification of the task, desired format, and constraints---analogous to writing a precise function signature in traditional software.
+
+\subsubsection{Task Specification}
+
+Following Russell's alignment framework \cite{russell2019human}, prompts should make implicit assumptions explicit, reducing the probability that the model optimizes for a proxy rather than the true objective. Effective prompts specify:
+
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{Role:} What perspective or expertise should the model adopt?
+    \item \textbf{Task:} What specific action should the model perform?
+    \item \textbf{Context:} What background information is necessary?
+    \item \textbf{Constraints:} What limitations or requirements apply?
+    \item \textbf{Format:} How should the output be structured?
+\end{itemize}
+
+Wei et al.'s chain-of-thought prompting \cite{wei2022chain} demonstrates that explicitly prompting for reasoning steps improves performance on complex tasks. This technique operationalizes effectiveness by ensuring the model's reasoning process aligns with the user's expectations.
+
+\subsubsection{Alignment Mechanisms}
+
+Prompt effectiveness must account for the alignment challenges unique to large language models. A prompt that elicits fluent, plausible-sounding outputs may fail if those outputs contain hallucinations or violate constraints. E3 recommends:
+
+\textbf{Verification Prompts.} Include instructions for the model to verify factual claims or cite sources where applicable.
+
+\textbf{Constraint Enforcement.} Use explicit delimiters and formatting instructions to enforce output structure.
+
+\textbf{Negative Examples.} Specify what the model should not do, reducing the risk of undesired outputs.
+
+\textbf{Iterative Refinement.} Design prompts as part of a conversation, allowing users to provide feedback and refine outputs.
+
+\subsection{Efficiency in Prompts: Token Optimization and Modular Design}
+
+Liu et al.'s findings \cite{liu2023lost} establish that prompt length is not merely a cost variable but an accuracy variable. Information placed at the beginning and end of a prompt is recalled more reliably than information buried in the middle. This discovery has profound implications for prompt efficiency.
+
+\subsubsection{Token Economics}
+
+At scale, prompt length translates directly into computational cost, latency, and environmental impact. Strubell et al. \cite{strubell2019energy} and Patterson et al. \cite{patterson2021carbon} demonstrated that language model inference carries significant environmental costs. E3 encourages prompt engineers to track:
+
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{Tokens per Query:} Average prompt and completion length.
+    \item \textbf{Output Quality per Token:} Effectiveness metrics normalized by token count.
+    \item \textbf{Retry Rate:} Frequency of regeneration requests, indicating prompt inadequacy.
+\end{itemize}
+
+
+\subsubsection{Structural Efficiency}
+
+Applying DRY to prompt engineering means that every sentence should carry non-redundant information. Applying KISS means favoring direct, unambiguous instructions over complex, nested conditions. Efficient prompts are \emph{front-loaded}: critical instructions and context appear first, supporting details follow, and redundant context is eliminated.
+
+E3 recommends modular prompt design:
+
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{System Prompts:} Reusable context that applies across queries.
+    \item \textbf{Task Templates:} Parameterized prompts that can be instantiated for specific use cases.
+    \item \textbf{Few-Shot Libraries:} Curated examples that can be included when needed.
+    \item \textbf{Context Injection:} Dynamic retrieval of relevant context rather than including all possible context.
+\end{itemize}
+
+This modular approach reduces token redundancy while ensuring that necessary context is available when needed. It mirrors the modular design principles that Martin \cite{martin2017architecture} advocates for software architecture.
+
+\subsection{Elegance in Prompts: Output Clarity and Formatting}
+
+An elegant prompt produces outputs that are readable, well-structured, and cognitively accessible. Following Miller's chunking limits \cite{miller1956magical}, elegant prompts organize instructions into clearly delineated sections that both human reviewers and AI models can parse without ambiguity.
+
+\subsubsection{Output Formatting}
+
+Elegant prompts specify output format explicitly:
+
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{Structure:} Use numbered lists, bullet points, or sections for complex outputs.
+    \item \textbf{Length:} Specify desired length in words, sentences, or paragraphs.
+    \item \textbf{Tone:} Indicate the appropriate voice (formal, conversational, technical).
+    \item \textbf{Audience:} Specify the intended reader's expertise level.
+\end{itemize}
+
+\subsubsection{Readability for Developers}
+
+Where prompts are shared across teams, elegance implies version control, peer review, and documentation---the same practices that Hunt and Thomas advocate for code \cite{hunt1999pragmatic}. Prompts should be self-documenting: their structure and intent should be apparent to developers who did not write them.
+
+E3 recommends:
+
+\textbf{Commentary Sections.} Include non-executed sections explaining prompt intent and design decisions.
+
+\textbf{Consistent Conventions.} Use consistent formatting patterns (e.g., XML tags for roles, markdown for sections) across all prompts in a project.
+
+\textbf{Changelog Documentation.} Track prompt modifications and their effects on output quality.
+
+\textbf{Testing Protocols.} Establish evaluation suites that compare prompt versions across representative inputs.
+
+\subsection{Balancing the Pillars in Prompt Engineering}
+
+The three pillars may conflict in practice. A maximally efficient prompt (minimal tokens) may sacrifice effectiveness (incomplete instructions) or elegance (opaque structure). A maximally effective prompt (comprehensive instructions) may become inefficient (excessive tokens) or inelegant (difficult to parse).
+
+E3 does not prescribe a universal weighting. Instead, it provides a vocabulary for prompt engineers to make these trade-offs explicitly:
+
+\begin{itemize}[leftmargin=2em]
+    \item For high-stakes applications (medical, legal, financial), prioritize effectiveness.
+    \item For high-volume applications (customer service, content generation), prioritize efficiency.
+    \item For user-facing applications (creative tools, assistants), prioritize elegance.
+\end{itemize}
+
+The framework encourages teams to define their own priorities and measure outcomes accordingly.
+
+% ============================================================
+% 7. ILLUSTRATIVE EXAMPLES
+% ============================================================
+\input{sections/illustrative_examples}
+
+% ============================================================
+% 8. METHODOLOGY AND APPLICATION
+% ============================================================
+\section{Methodology and Application}
+
+The E3 Framework is designed to complement rather than replace existing development methodologies. This section describes how E3 integrates with Agile, DevOps, and MLOps practices, and provides practical implementation guidelines.
+
+\subsection{Integration with Agile Methodologies}
+
+Agile methodologies emphasize iterative development, customer collaboration, and responding to change \cite{beck2000extreme}. E3 enhances Agile by providing explicit quality dimensions that user stories and acceptance criteria should address.
+
+\subsubsection{User Story Enhancement}
+
+Traditional user stories follow the format: ``As a [role], I want [feature] so that [benefit].'' E3 extends this with quality criteria:
+
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{Effectiveness:} How will we verify that this story delivers genuine value?
+    \item \textbf{Efficiency:} What resource constraints apply to this feature?
+    \item \textbf{Elegance:} What UX/explainability requirements apply?
+\end{itemize}
+
+For AI-specific stories, additional criteria include:
+
+\begin{itemize}[leftmargin=2em]
+    \item Fairness constraints and protected attributes.
+    \item Confidence thresholds for automated decisions.
+    \item Explanation requirements.
+    \item Human oversight triggers.
+\end{itemize}
+
+\subsubsection{Definition of Done}
+
+E3 extends the Agile ``definition of done'' to include:
+
+\textbf{Effectiveness:}
+\begin{itemize}[leftmargin=2em]
+    \item All acceptance criteria verified.
+    \item Fairness metrics within acceptable bounds.
+    \item Bias audit completed for AI components.
+    \item Documentation complete (datasheets, model cards).
+\end{itemize}
+
+\textbf{Efficiency:}
+\begin{itemize}[leftmargin=2em]
+    \item Performance benchmarks met.
+    \item Resource utilization within budgets.
+    \item Carbon footprint estimated and acceptable.
+\end{itemize}
+
+\textbf{Elegance:}
+\begin{itemize}[leftmargin=2em]
+    \item UX review completed.
+    \item Explainability mechanisms verified.
+    \item Accessibility requirements met.
+\end{itemize}
+
+\subsection{Integration with DevOps}
+
+DevOps practices automate the path from development to production \cite{humble2010continuous}. E3 enhances DevOps by extending CI/CD pipelines with AI-specific quality gates.
+
+\subsubsection{Extended Pipeline Stages}
+
+A traditional CI/CD pipeline includes stages for build, test, and deploy. E3 adds:
+
+\textbf{Data Validation Stage:} Verify data quality, detect distribution shift, validate schema compliance.
+
+\textbf{Model Validation Stage:} Evaluate model performance across fairness dimensions, compare against baseline, check for regression.
+
+\textbf{Explanation Verification:} Ensure explanation mechanisms function correctly; validate that explanations are comprehensible.
+
+\textbf{Resource Budget Check:} Verify that inference latency, memory usage, and estimated carbon impact are within bounds.
+
+
+\subsubsection{Monitoring Extension}
+
+Traditional DevOps monitoring focuses on system health (availability, latency, error rate). E3 extends monitoring to include:
+
+\textbf{Effectiveness Monitoring:}
+\begin{itemize}[leftmargin=2em]
+    \item Model accuracy and drift detection.
+    \item Fairness metric tracking over time.
+    \item User satisfaction indicators.
+    \item Alignment failure detection (outputs that violate constraints).
+\end{itemize}
+
+\textbf{Efficiency Monitoring:}
+\begin{itemize}[leftmargin=2em]
+    \item Inference latency distribution.
+    \item Token usage and cost tracking.
+    \item Resource utilization.
+    \item Carbon intensity estimates.
+\end{itemize}
+
+\textbf{Elegance Monitoring:}
+\begin{itemize}[leftmargin=2em]
+    \item User feedback on output quality.
+    \item Explanation usage patterns.
+    \item Regeneration request rates.
+    \item User trust indicators.
+\end{itemize}
+
+\subsection{Integration with MLOps}
+
+MLOps extends DevOps specifically for machine learning systems \cite{sridhar2022mlops}. E3 provides MLOps with a quality framework that extends beyond operational concerns.
+
+\subsubsection{Experiment Tracking Enhancement}
+
+MLOps emphasizes experiment tracking for reproducibility. E3 extends this to include:
+
+\begin{itemize}[leftmargin=2em]
+    \item Fairness metrics for each experiment.
+    \item Resource consumption estimates.
+    \item Explanation quality evaluations.
+    \item Stakeholder value alignment assessment.
+\end{itemize}
+
+\subsubsection{Model Registry Enhancement}
+
+E3 extends model registry metadata to include:
+
+\begin{itemize}[leftmargin=2em]
+    \item Model cards with performance across demographic groups.
+    \item Carbon footprint estimates for training.
+    \item Inference resource requirements.
+    \item Explanation mechanism specifications.
+    \item Alignment documentation.
+\end{itemize}
+
+\subsubsection{Deployment Automation}
+
+E3-informed deployment automation includes:
+
+\textbf{Pre-deployment Checks:}
+\begin{itemize}[leftmargin=2em]
+    \item Bias audit verification.
+    \item Fairness constraint validation.
+    \item Explanation mechanism testing.
+    \item Resource budget verification.
+\end{itemize}
+
+\textbf{Post-deployment Monitoring:}
+\begin{itemize}[leftmargin=2em]
+    \item Automated drift detection.
+    \item Fairness metric alerts.
+    \item User feedback collection.
+    \item Cost anomaly detection.
+\end{itemize}
+
+
+\subsection{Implementation Checklist}
+
+The following checklist translates E3 principles into measurable indicators organized by development stage. It is designed for teams adopting the framework for the first time.
+
+\subsubsection{Requirements Gathering}
+
+\begin{itemize}[leftmargin=2em]
+    \item[\textbf{E1}] \textbf{Effectiveness:} Define task success criteria and fairness constraints. Identify stakeholders and ethical risks. Require datasheets for all training datasets \cite{gebru2021datasheets}.
+    \item[\textbf{E2}] \textbf{Efficiency:} Establish latency, throughput, and carbon budgets. Identify critical computational paths per Knuth's principle \cite{knuth1974structured}.
+    \item[\textbf{E3}] \textbf{Elegance:} Conduct user research per ISO 9241-210 \cite{iso2019ergonomics}. Define explainability requirements for AI outputs. Set cognitive-load targets informed by Miller's chunking limits \cite{miller1956magical}.
+\end{itemize}
+
+\subsubsection{Design and Architecture}
+
+\begin{itemize}[leftmargin=2em]
+    \item[\textbf{E1}] Apply SOLID principles \cite{martin2017clean} to both application logic and ML pipeline components. Ensure alignment mechanisms are architecturally explicit \cite{russell2019human}.
+    \item[\textbf{E2}] Enforce DRY and orthogonality \cite{hunt1999pragmatic} across code and prompt templates. Minimize pipeline jungles \cite{sculley2015hidden}.
+    \item[\textbf{E3}] Design interfaces that chunk information within Miller's limit \cite{miller1956magical}. Integrate LIME or equivalent XAI mechanisms \cite{ribeiro2016should}.
+\end{itemize}
+
+\subsubsection{Implementation and Testing}
+
+\begin{itemize}[leftmargin=2em]
+    \item[\textbf{E1}] Conduct A/B testing for effectiveness. Run bias audits against defined fairness metrics. Validate ethical compliance per IEEE 7000 \cite{ieee7000:2021}.
+    \item[\textbf{E2}] Profile before optimizing. Track tokens-per-query and cost-per-inference. Benchmark against carbon budgets \cite{patterson2021carbon}.
+    \item[\textbf{E3}] Perform usability testing with representative users. Validate that AI explanations are comprehensible to non-experts.
+\end{itemize}
+
+\subsubsection{Deployment and Monitoring}
+
+\begin{itemize}[leftmargin=2em]
+    \item[\textbf{E1}] Monitor user satisfaction, task completion rates, and drift in fairness metrics. Maintain a living datasheet for each deployed model.
+    \item[\textbf{E2}] Track inference latency, resource utilization, and energy consumption. Alert on cost anomalies.
+    \item[\textbf{E3}] Gather qualitative UX feedback. Monitor explanation quality and user trust indicators. Iterate on prompt designs based on output-quality-per-token metrics.
+\end{itemize}
+
+
+% ============================================================
+% 9. COMPARATIVE ANALYSIS
+% ============================================================
+\section{Comparative Analysis}
+
+Table~\ref{tab:comparison} positions E3 relative to three widely adopted methodologies. The comparison is not adversarial; E3 is designed to complement rather than replace these frameworks.
+
+\begin{table*}[t]
+\centering
+\caption{Comparative Analysis of E3, Agile/Scrum, DevOps, and MLOps}
+\label{tab:comparison}
+\small
+\begin{tabularx}{\textwidth}{@{}l X X X X@{}}
+\toprule
+\textbf{Dimension} & \textbf{E3} & \textbf{Agile/Scrum} & \textbf{DevOps} & \textbf{MLOps} \\
+\midrule
+\textbf{Primary Focus} & Holistic quality across effectiveness, efficiency, elegance & Iterative delivery, customer feedback & CI/CD automation, collaboration & ML model lifecycle management \\
+\addlinespace
+\textbf{Ethical Governance} & First-class pillar; IEEE 7000 alignment & Not explicitly addressed & Not explicitly addressed & Emerging (model cards, data sheets) \\
+\addlinespace
+\textbf{Sustainability Metrics} & Carbon intensity, token economics & Not addressed & Infrastructure efficiency (implicit) & Compute tracking (partial) \\
+\addlinespace
+\textbf{UX / Explainability} & Explicit elegance pillar; XAI integration & User stories (indirect) & Monitoring dashboards & Model monitoring (accuracy-focused) \\
+\addlinespace
+\textbf{Prompt Engineering} & Structured evaluation model & Not applicable & Not applicable & Emerging concern \\
+\addlinespace
+\textbf{Technical Debt} & Addresses via efficiency pillar & Backlog grooming (ad hoc) & Automation reduces ops debt & ML-specific debt recognized \\
+\addlinespace
+\textbf{Traditional SE Principles} & SOLID, DRY, KISS as foundations & Implicit & Implicit & Limited integration \\
+\addlinespace
+\textbf{Complementarity} & Integrates with all three & Benefits from E3 quality metrics & Benefits from E3 UX and ethics lens & Benefits from E3 sustainability KPIs \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+Agile excels at adaptive planning but provides no explicit quality dimensions beyond ``working software.'' The Agile Manifesto's principle of ``working software over comprehensive documentation'' \cite{beck2000extreme} risks undervaluing the documentation that AI systems require for fairness, transparency, and accountability.
+
+DevOps automates delivery and emphasizes collaboration between development and operations teams \cite{humble2010continuous}. However, DevOps practices were designed for deterministic services where integration tests can verify behavior. The probabilistic nature of AI outputs challenges traditional testing approaches, and DevOps is largely silent on user experience and ethical considerations.
+
+MLOps extends DevOps for machine learning, addressing model versioning, experiment tracking, and deployment \cite{sridhar2022mlops}. While MLOps recognizes ML-specific technical debt \cite{sculley2015hidden}, it often treats fairness, explainability, and sustainability as secondary concerns---issues to be addressed if time permits rather than first-class design constraints.
+
+E3 supplies the missing quality model---a shared vocabulary of effectiveness, efficiency, and elegance---that can be layered onto any of these process frameworks. It does not prescribe specific ceremonies or tools; instead, it provides quality criteria that existing methodologies can incorporate.
+
+
+% ============================================================
+% 10. THREATS TO VALIDITY
+% ============================================================
+\input{sections/threats_to_validity}
+
+% ============================================================
+% 11. DISCUSSION AND FUTURE WORK
+% ============================================================
+\section{Discussion and Future Work}
+
+\subsection{Trade-offs Between Pillars}
+
+The E3 Framework acknowledges that balancing its three pillars involves inherent trade-offs. These tensions are not weaknesses to be eliminated but realities to be managed explicitly.
+
+\subsubsection{Effectiveness vs. Efficiency}
+
+A maximally effective model may require significant computational resources. State-of-the-art performance on complex tasks often demands large models with billions of parameters \cite{brown2020language}. However, the environmental and economic costs of such models may be prohibitive for many applications \cite{strubell2019energy}.
+
+E3 encourages teams to define minimum effectiveness thresholds and then optimize efficiency, rather than pursuing maximum effectiveness at any cost. For many applications, a smaller, more efficient model that meets effectiveness criteria is preferable to a larger model that marginally exceeds them.
+
+\subsubsection{Effectiveness vs. Elegance}
+
+Complex models often sacrifice interpretability. Deep neural networks may achieve superior accuracy while providing little insight into their reasoning \cite{ribeiro2016should}. In high-stakes domains (healthcare, criminal justice, finance), this trade-off becomes ethically significant.
+
+E3 requires teams to make this trade-off consciously. Where explainability is critical, teams should consider interpretable models or robust explanation mechanisms, even if this reduces raw effectiveness. The framework insists that opacity is a cost that must be justified, not an inevitable feature of AI systems.
+
+\subsubsection{Efficiency vs. Elegance}
+
+Elegant interfaces and comprehensive explanations require computational overhead. Generating explanations in real-time adds latency. Richly formatted outputs require additional tokens. The most efficient system would return raw predictions without explanation---but such a system would fail the elegance criterion.
+
+E3 recommends tiered approaches: lightweight responses by default with optional detailed explanations on demand. This respects both efficiency constraints and users' need for transparency.
+
+\subsection{Future Directions}
+
+The E3 Framework opens several avenues for future research and development:
+
+\subsubsection{Empirical Validation}
+
+Rigorous empirical studies should evaluate E3's impact on software quality. Research questions include:
+
+\begin{itemize}[leftmargin=2em]
+    \item Do teams using E3 produce fairer, more sustainable, more usable AI systems?
+    \item What are the costs of E3 adoption, and how do they compare to benefits?
+    \item How do teams negotiate trade-offs between pillars in practice?
+    \item Which E3 practices have the greatest impact on outcomes?
+\end{itemize}
+
+The testable hypotheses presented in Section~\ref{sec:formal_definitions} provide a starting point for such research.
+
+\subsubsection{Autonomous Agents}
+
+The rise of autonomous AI agents---systems that can plan, execute, and adapt without human intervention---presents new challenges for E3. An agent's effectiveness includes not only task completion but also safety and goal alignment over extended time horizons. Efficiency encompasses not only single-query costs but cumulative resource consumption across complex workflows. Elegance extends to how agents communicate their reasoning and seek human input.
+
+Future work should adapt E3 for agentic systems, potentially adding new dimensions such as autonomy governance, human-AI collaboration patterns, and long-term alignment monitoring.
+
+\subsubsection{Standardization}
+
+The software engineering profession would benefit from standardized E3 metrics and reporting formats. Just as IEEE 7000-2021 \cite{ieee7000:2021} provides a standard process for ethical system design, future standards could define:
+
+\begin{itemize}[leftmargin=2em]
+    \item Carbon accounting methodologies for AI systems.
+    \item Fairness metric reporting standards.
+    \item Explainability quality criteria.
+    \item Prompt engineering evaluation frameworks.
+\end{itemize}
+
+\subsubsection{Tooling Development}
+
+Practical E3 adoption requires integrated tooling that brings together capabilities currently scattered across separate platforms:
+
+\begin{itemize}[leftmargin=2em]
+    \item Unified dashboards showing effectiveness, efficiency, and elegance metrics.
+    \item Automated fairness auditing integrated into CI/CD pipelines.
+    \item Carbon tracking integrated with cloud providers.
+    \item Explanation quality evaluation tools.
+    \item Prompt version control and testing frameworks.
+\end{itemize}
+
+\subsubsection{Education and Training}
+
+As AI becomes integral to software development, education must evolve. E3 provides a framework for curricula that integrate traditional software engineering principles with AI-specific concerns. Future work should develop educational materials, case studies, and training programs that prepare engineers for the AI transition.
+
+
+% ============================================================
+% 12. CONCLUSION
+% ============================================================
+\section{Conclusion}
+
+The transition from deterministic to probabilistic software systems represents the defining challenge of contemporary software engineering. Traditional methodologies---Agile, DevOps, and their descendants---provided essential guidance for deterministic systems but lack a unified quality model that spans both classical and AI-driven development.
+
+The E3 Framework addresses this gap by extending proven software engineering principles into the AI domain. Its three pillars---Effectiveness ($E_1$), Efficiency ($E_2$), and Elegance ($E_3$)---draw on foundational work from Brooks, Boehm, Martin, Fowler, Hunt, and Thomas, while incorporating contemporary AI research on technical debt, alignment, explainability, and computational sustainability.
+
+This paper has presented E3 as a conceptual framework with formal mathematical definitions, comparative analysis against established quality models, operationalized metrics, and illustrative examples. Transparency regarding validity threats and the need for empirical validation has been maintained throughout. The testable hypotheses proposed provide a research agenda for the community.
+
+E3 is not a replacement for existing methodologies but a quality lens that sharpens their application to AI systems. It complements Agile with explicit quality dimensions, extends DevOps with AI-specific quality gates, and enriches MLOps with ethical, sustainability, and usability concerns.
+
+As Brooks observed, there is no silver bullet for software complexity \cite{brooks1975mythical}. But there is value in a coherent conceptual framework that helps practitioners---whether experienced software engineers, data scientists entering production, or prompt engineers shaping AI interactions---reason about quality in a structured, measurable way. The E3 Framework provides such a framework: rigorous enough for production systems, accessible enough for newcomers, and adaptable enough to evolve with the technology it seeks to govern.
+
+The AI transition is underway. The question is not whether software engineering will adapt, but how. The E3 Framework offers one answer: by preserving the hard-won wisdom of traditional engineering while extending it to meet the unique challenges of probabilistic, AI-driven systems. In doing so, it helps ensure that the AI systems we build are not merely powerful, but also reliable, sustainable, and humane.
+
+% ============================================================
+% REFERENCES
+% ============================================================
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}

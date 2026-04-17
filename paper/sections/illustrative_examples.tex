@@ -1,0 +1,317 @@
+% ============================================================
+% ILLUSTRATIVE EXAMPLES
+% ============================================================
+
+\section{Illustrative Examples}
+\label{sec:illustrative_examples}
+
+This section presents four hypothetical scenarios demonstrating how the E3 Framework guides software quality decisions across diverse domains. Each example illustrates the application of E3 principles, trade-off analysis, and metric-driven evaluation. These scenarios are illustrative rather than empirical, designed to demonstrate framework applicability.
+
+\subsection{Example 1: Healthcare Diagnostic AI System}
+
+\subsubsection{Context}
+
+A development team is building an AI system to assist radiologists in detecting early-stage lung cancer from CT scans. The system will be deployed in hospitals across diverse socioeconomic regions.
+
+\subsubsection{E3 Analysis}
+
+\paragraph{Effectiveness ($E_1$) Considerations}
+
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{Functional Correctness:} High sensitivity required ($\geq 0.95$) to avoid missing cancers; specificity $\geq 0.90$ to minimize false positives.
+    \item \textbf{AI Alignment:} System must align with clinical workflow, supporting rather than replacing radiologist judgment.
+    \item \textbf{Fairness:} Model must perform equitably across demographic groups; training data must represent diverse populations.
+    \item \textbf{Ethical Governance:} Compliance with medical device regulations (FDA, CE marking); clear documentation of limitations.
+\end{itemize}
+
+\paragraph{Efficiency ($E_2$) Considerations}
+
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{Computational Resources:} Inference must complete within 30 seconds to integrate with clinical workflow.
+    \item \textbf{Sustainability:} Training large vision models has significant carbon footprint; consider transfer learning from pre-trained models.
+    \item \textbf{Cost:} Deployment cost must be sustainable for resource-constrained hospitals.
+\end{itemize}
+
+\paragraph{Elegance ($E_3$) Considerations}
+
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{Explainability:} Radiologists require visual explanations (attention maps, similar cases) to trust and validate findings.
+    \item \textbf{Usability:} Interface must integrate with existing PACS systems; minimal additional cognitive load.
+    \item \textbf{Confidence Communication:} Clear display of uncertainty; no overconfident predictions.
+\end{itemize}
+
+\subsubsection{Trade-off Decisions}
+
+\begin{table}[h]
+\centering
+\caption{Healthcare AI: E3 Trade-off Analysis}
+\label{tab:healthcare_tradeoff}
+\small
+\begin{tabularx}{\columnwidth}{@{}l X X@{}}
+\toprule
+\textbf{Decision} & \textbf{Trade-off} & \textbf{E3 Resolution} \\
+\midrule
+Model Size & Larger model $\rightarrow$ higher accuracy but slower inference, higher cost & Prioritize $E_1$ (sensitivity); accept $E_2$ cost; optimize inference pipeline \\
+Explainability & Attention maps may reduce accuracy slightly & $E_3$ is non-negotiable; accept minor $E_1$ reduction \\
+Fairness & Balanced dataset may reduce overall accuracy & $E_1$ fairness component requires equitable performance \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\paragraph{Weight Vector:} $\mathbf{w} = (0.55, 0.20, 0.25)$ — Effectiveness prioritized with significant elegance weight for clinical trust.
+
+\subsubsection{Hypothetical Outcomes}
+
+\begin{itemize}[leftmargin=2em]
+    \item Sensitivity: 0.96, Specificity: 0.91 ($E_1$ = 0.88)
+    \item Inference latency: 22 seconds average ($E_2$ = 0.75)
+    \item SUS score: 82, Explanation comprehensibility: 4.2/5 ($E_3$ = 0.81)
+    \item Integrated score: $T(\mathbf{q}) = 0.55(0.88) + 0.20(0.75) + 0.25(0.81) = 0.83$
+\end{itemize}
+
+\subsection{Example 2: Content Recommendation System}
+
+\subsubsection{Context}
+
+A social media platform is redesigning its content recommendation algorithm to balance engagement optimization with user well-being and content quality.
+
+\subsubsection{E3 Analysis}
+
+\paragraph{Effectiveness ($E_1$) Considerations}
+
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{Functional:} Recommendations should match user interests while avoiding harmful content.
+    \item \textbf{Alignment:} Long-term user well-being vs. short-term engagement; avoid addictive patterns.
+    \item \textbf{Fairness:} Equal visibility for creators across demographic groups; avoid amplification bias.
+    \item \textbf{Ethical Governance:} Transparency about recommendation criteria; user control over algorithm.
+\end{itemize}
+
+\paragraph{Efficiency ($E_2$) Considerations}
+
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{Scale:} System processes millions of requests per second; latency critical.
+    \item \textbf{Sustainability:} Large-scale recommendation has significant energy footprint.
+    \item \textbf{Cost:} Infrastructure costs scale with model complexity.
+\end{itemize}
+
+\paragraph{Elegance ($E_3$) Considerations}
+
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{Transparency:} Users should understand why content is recommended.
+    \item \textbf{Control:} Users can adjust preferences, dismiss recommendations, see fewer similar items.
+    \item \textbf{Aesthetic:} Clean presentation without overwhelming users.
+\end{itemize}
+
+\subsubsection{Trade-off Decisions}
+
+\begin{table}[h]
+\centering
+\caption{Recommendation System: E3 Trade-off Analysis}
+\label{tab:rec_tradeoff}
+\small
+\begin{tabularx}{\columnwidth}{@{}l X X@{}}
+\toprule
+\textbf{Decision} & \textbf{Trade-off} & \textbf{E3 Resolution} \\
+\midrule
+Engagement vs. Well-being & Pure engagement optimization harms user well-being & Redefine $E_1$ to include well-being metrics \\
+Model Complexity & Deeper models improve relevance but increase latency and cost & Two-tier system: fast retrieval + slower ranking \\
+Transparency & Showing reasons increases UI complexity & Progressive disclosure: explanations on hover/tap \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\paragraph{Weight Vector:} $\mathbf{w} = (0.35, 0.40, 0.25)$ — Efficiency prioritized for scale, with balanced effectiveness and elegance.
+
+\subsubsection{Hypothetical Outcomes}
+
+\begin{itemize}[leftmargin=2em]
+    \item Engagement + Well-being score: 0.78 ($E_1$ = 0.78)
+    \item Latency: 45ms p95, Throughput: 50K req/s ($E_2$ = 0.85)
+    \item User satisfaction with control: 3.8/5, Transparency rating: 3.9/5 ($E_3$ = 0.72)
+    \item Integrated score: $T(\mathbf{q}) = 0.35(0.78) + 0.40(0.85) + 0.25(0.72) = 0.79$
+\end{itemize}
+
+\subsection{Example 3: LLM-Powered Code Assistant}
+
+\subsubsection{Context}
+
+A software company is developing an LLM-powered code assistant that helps developers write, review, and debug code. The assistant integrates with popular IDEs.
+
+\subsubsection{E3 Analysis}
+
+\paragraph{Effectiveness ($E_1$) Considerations}
+
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{Functional:} Code suggestions must be syntactically correct and semantically appropriate.
+    \item \textbf{Alignment:} Suggestions should match project coding standards and developer intent.
+    \item \textbf{Security:} Avoid suggesting vulnerable code patterns; flag security issues.
+    \item \textbf{Hallucination:} Minimize confident but incorrect suggestions.
+\end{itemize}
+
+\paragraph{Efficiency ($E_2$) Considerations}
+
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{Latency:} Suggestions must appear within 200ms to maintain flow state.
+    \item \textbf{Token Economics:} Optimize prompt design for quality per token.
+    \item \textbf{Cost:} API costs scale with usage; balance quality and cost.
+\end{itemize}
+
+\paragraph{Elegance ($E_3$) Considerations}
+
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{Integration:} Seamless IDE integration; minimal context switching.
+    \item \textbf{Explanations:} When suggesting non-obvious solutions, provide brief explanations.
+    \item \textbf{Progressive Disclosure:} Show suggestions unobtrusively; details on demand.
+\end{itemize}
+
+\subsubsection{Prompt Engineering Example}
+
+\paragraph{Before E3 Optimization:}
+
+\begin{verbatim}
+User: Fix this bug
+
+def calculate_total(items):
+    total = 0
+    for item in items:
+        total += item.price * item.quantity
+    return total
+\end{verbatim}
+
+\textit{Issues:} No context about the bug, no specification of expected behavior, no constraints on the solution.
+
+\paragraph{After E3 Optimization:}
+
+\begin{verbatim}
+System: You are a code review assistant. Analyze code for:
+- Correctness bugs (logic errors, edge cases)
+- Security vulnerabilities
+- Performance issues
+
+User: Review this function for a bug where items with 
+missing 'price' or 'quantity' attributes cause crashes:
+
+def calculate_total(items):
+    total = 0
+    for item in items:
+        total += item.price * item.quantity
+    return total
+
+Expected behavior: Skip invalid items, log warnings.
+Follow PEP 8 style guidelines.
+\end{verbatim}
+
+\textit{E3 Improvements:}
+\begin{itemize}[leftmargin=2em]
+    \item $E_1$: Clear specification of bug type and expected behavior
+    \item $E_2$: Focused prompt reduces token usage and improves relevance
+    \item $E_3$: Style constraints ensure suggestions match project standards
+\end{itemize}
+
+\subsubsection{Hypothetical Outcomes}
+
+\begin{itemize}[leftmargin=2em]
+    \item Code correctness rate: 0.87, Security issue detection: 0.92 ($E_1$ = 0.85)
+    \item Latency: 180ms average, Tokens/suggestion: 45 ($E_2$ = 0.80)
+    \item Developer satisfaction: 4.3/5, Integration rating: 4.5/5 ($E_3$ = 0.84)
+    \item Integrated score: $T(\mathbf{q}) = 0.40(0.85) + 0.30(0.80) + 0.30(0.84) = 0.83$
+\end{itemize}
+
+\subsection{Example 4: Autonomous Vehicle Decision System}
+
+\subsubsection{Context}
+
+An automotive company is developing the decision-making module for a Level 4 autonomous vehicle, responsible for trajectory planning and collision avoidance.
+
+\subsubsection{E3 Analysis}
+
+\paragraph{Effectiveness ($E_1$) Considerations}
+
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{Safety:} Zero tolerance for collisions; fail-safe behavior required.
+    \item \textbf{Robustness:} Must handle edge cases (weather, construction, erratic behavior).
+    \item \textbf{Alignment:} Decision logic must align with ethical principles (trolley problem considerations).
+    \item \textbf{Regulatory Compliance:} Meet automotive safety standards (ISO 26262).
+\end{itemize}
+
+\paragraph{Efficiency ($E_2$) Considerations}
+
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{Real-time:} Decision cycle must complete within 100ms.
+    \item \textbf{Hardware Constraints:} Limited compute power on vehicle; optimize for edge deployment.
+    \item \textbf{Energy:} Decision system contributes to vehicle energy consumption.
+\end{itemize}
+
+\paragraph{Elegance ($E_3$) Considerations}
+
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{Explainability:} Post-incident analysis requires interpretable decisions.
+    \item \textbf{Passenger Communication:} Clear feedback about vehicle intentions.
+    \item \textbf{Trust:} Predictable, human-like behavior patterns.
+\end{itemize}
+
+\subsubsection{Trade-off Decisions}
+
+\begin{table}[h]
+\centering
+\caption{Autonomous Vehicle: E3 Trade-off Analysis}
+\label{tab:av_tradeoff}
+\small
+\begin{tabularx}{\columnwidth}{@{}l X X@{}}
+\toprule
+\textbf{Decision} & \textbf{Trade-off} & \textbf{E3 Resolution} \\
+\midrule
+Model Complexity & Deep RL learns better policies but less interpretable & Hybrid: learned perception + rule-based safety layer \\
+Latency vs. Accuracy & More computation improves accuracy but increases latency & Hardware acceleration + model optimization; $E_2$ hard constraint \\
+Ethical Dilemmas & No universally correct answers & Document ethical framework; regulatory engagement \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\paragraph{Weight Vector:} $\mathbf{w} = (0.60, 0.25, 0.15)$ — Effectiveness (safety) dominates; efficiency required for real-time operation.
+
+\subsubsection{Hypothetical Outcomes}
+
+\begin{itemize}[leftmargin=2em]
+    \item Safety score: 0.99 (one intervention per 10K miles), Robustness: 0.94 ($E_1$ = 0.92)
+    \item Decision latency: 78ms average, Energy efficiency: 0.82 ($E_2$ = 0.80)
+    \item Explainability: 0.88 (logged decisions), Passenger trust: 4.0/5 ($E_3$ = 0.78)
+    \item Integrated score: $T(\mathbf{q}) = 0.60(0.92) + 0.25(0.80) + 0.15(0.78) = 0.86$
+\end{itemize}
+
+\subsection{Cross-Example Analysis}
+
+Table~\ref{tab:examples_comparison} compares E3 application across the four scenarios.
+
+\begin{table*}[t]
+\centering
+\caption{Cross-Example Comparison of E3 Application}
+\label{tab:examples_comparison}
+\small
+\begin{tabularx}{\textwidth}{@{}l X X X X@{}}
+\toprule
+\textbf{Dimension} & \textbf{Healthcare AI} & \textbf{Recommendation} & \textbf{Code Assistant} & \textbf{Autonomous Vehicle} \\
+\midrule
+Weight Vector & (0.55, 0.20, 0.25) & (0.35, 0.40, 0.25) & (0.40, 0.30, 0.30) & (0.60, 0.25, 0.15) \\
+Primary Pillar & $E_1$ (Effectiveness) & $E_2$ (Efficiency) & Balanced & $E_1$ (Safety) \\
+$E_1$ Score & 0.88 & 0.78 & 0.85 & 0.92 \\
+$E_2$ Score & 0.75 & 0.85 & 0.80 & 0.80 \\
+$E_3$ Score & 0.81 & 0.72 & 0.84 & 0.78 \\
+Integrated T(q) & 0.83 & 0.79 & 0.83 & 0.86 \\
+Key Trade-off & Accuracy vs. Speed & Engagement vs. Well-being & Quality vs. Cost & Safety vs. Interpretability \\
+\addlinespace
+E3 Contribution & Explicit fairness requirements; explainability for trust & Well-being in effectiveness; scale efficiency & Prompt optimization; developer experience & Safety-first weighting; ethical framework \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+These examples demonstrate that:
+
+\begin{enumerate}[leftmargin=2em]
+    \item The E3 Framework adapts to diverse domains through appropriate weight vector selection.
+    \item Trade-off analysis is domain-specific but follows consistent E3 principles.
+    \item The integrated quality score enables comparison across systems and iterations.
+    \item E3 provides vocabulary and structure for discussing quality decisions with stakeholders.
+\end{enumerate}
+
+Future empirical work should validate these hypothetical scenarios through controlled studies and real-world deployments.

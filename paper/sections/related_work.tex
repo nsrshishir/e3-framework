@@ -1,0 +1,168 @@
+% ============================================================
+% RELATED WORK
+% ============================================================
+
+\section{Related Work}
+\label{sec:related_work}
+
+This section positions the E3 Framework within the broader landscape of software quality models, AI ethics frameworks, and emerging practices for AI-enabled systems. We examine how E3 relates to, synthesizes, and extends prior work.
+
+\subsection{Software Quality Models}
+
+\subsubsection{ISO/IEC 25010 Quality Model}
+
+The ISO/IEC 25010 standard \cite{iso25010:2011} represents the most widely adopted software quality model, defining eight quality characteristics: functional suitability, performance efficiency, compatibility, usability, reliability, security, maintainability, and portability. This model provides a comprehensive taxonomy for evaluating traditional software systems and has been successfully applied across diverse domains.
+
+However, ISO 25010 was designed for deterministic systems where behavior can be fully specified and verified. The model does not address:
+
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{Probabilistic behavior:} AI systems produce outputs with inherent uncertainty, challenging traditional notions of correctness and reliability.
+    \item \textbf{Ethical considerations:} Fairness, transparency, and accountability are not represented as quality characteristics.
+    \item \textbf{Environmental impact:} Computational sustainability and carbon footprint are absent from efficiency considerations.
+    \item \textbf{Explainability:} The usability characteristic addresses interface design but not the transparency of AI reasoning.
+\end{itemize}
+
+Behkamal et al. \cite{behkamal2014customizing} demonstrated that ISO 25010 can be customized for specific domains, but such customizations require substantial effort and lack standardization. The E3 Framework provides a principled extension that maintains compatibility with ISO 25010 while addressing AI-specific concerns (see Table~\ref{tab:iso25010_comparison}).
+
+\subsubsection{McCall's Quality Factors}
+
+McCall's seminal work \cite{mccall1977factors} introduced a hierarchical model of software quality organized around three perspectives: product operation (correctness, reliability, efficiency, integrity, usability), product revision (maintainability, flexibility, testability), and product transition (portability, reusability, interoperability). This model influenced subsequent quality frameworks and remains foundational to software engineering education.
+
+McCall's model shares with E3 a focus on multiple quality dimensions and implicit trade-offs. However, the model predates the AI era and cannot address alignment, fairness, or explainability. The efficiency factor considers computational resources but not environmental sustainability. The usability factor addresses human-computer interaction but not the unique challenges of explaining probabilistic outputs.
+
+\subsubsection{Boehm's Quality Characteristics}
+
+Boehm et al. \cite{boehm1978characteristics} proposed an alternative quality model emphasizing utility: ``software quality is achieving a level of utility that satisfies the user.'' This value-oriented perspective influenced Boehm's later work on value-based software engineering \cite{boehm2006value}. The model includes human engineering as a quality characteristic, anticipating E3's elegance pillar.
+
+The E3 Framework extends Boehm's value orientation by explicitly incorporating ethical value into the effectiveness pillar. Where Boehm's model treats utility as primarily economic, E3 recognizes that AI systems create value through alignment with human intent and ethical constraints.
+
+\subsubsection{FURPS and FURPS+}
+
+The FURPS model (Functionality, Usability, Reliability, Performance, Supportability), developed at Hewlett-Packard, provides another quality taxonomy. FURPS+ extends this with design constraints, implementation requirements, interface requirements, and physical requirements. Like ISO 25010, FURPS addresses traditional software concerns without AI-specific extensions.
+
+\subsection{AI Ethics and Governance Frameworks}
+
+\subsubsection{EU AI Act}
+
+The European Union's AI Act \cite{euaiact2024}, enacted in 2024, establishes the world's first comprehensive regulatory framework for artificial intelligence. The Act classifies AI systems by risk level (unacceptable, high, limited, minimal) and imposes requirements including:
+
+\begin{itemize}[leftmargin=2em]
+    \item Risk assessment and mitigation systems
+    \item Data governance and quality requirements
+    \item Technical documentation and record-keeping
+    \item Transparency and provision of information to users
+    \item Human oversight mechanisms
+    \item Accuracy, robustness, and cybersecurity requirements
+\end{itemize}
+
+The E3 Framework operationalizes several AI Act requirements within its pillars: effectiveness addresses accuracy and robustness; efficiency addresses computational resource governance; elegance addresses transparency and human oversight. E3 provides developers with a practical methodology for achieving compliance while maintaining software quality.
+
+\subsubsection{NIST AI Risk Management Framework}
+
+The NIST AI Risk Management Framework \cite{nistairmf2023} provides voluntary guidance for managing AI risks throughout the system lifecycle. The framework organizes risks around seven characteristics: valid and reliable, safe, secure and resilient, accountable and transparent, explainable and interpretable, privacy-enhanced, and fair with bias managed.
+
+E3 aligns with NIST AI RMF while providing a more integrated quality model:
+
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{NIST}: Risk-focused, process-oriented
+    \item \textbf{E3}: Quality-focused, outcome-oriented
+\end{itemize}
+
+The frameworks are complementary: NIST AI RMF guides risk management processes, while E3 provides quality criteria that inform risk assessment and mitigation.
+
+\subsubsection{IEEE 7000-2021 Standard}
+
+IEEE 7000-2021 \cite{ieee7000:2021} provides a standard model process for addressing ethical concerns during system design. The standard emphasizes value-based design, stakeholder engagement, and iterative ethical reflection.
+
+E3 incorporates IEEE 7000 principles within its effectiveness pillar, treating ethical compliance as a first-class quality dimension rather than an external constraint. This integration ensures that ethical considerations are addressed alongside functional requirements throughout development.
+
+\subsubsection{OECD AI Principles}
+
+The OECD AI Principles \cite{oecdai2019} establish five values-based principles for trustworthy AI: inclusive growth, sustainable development, and well-being; human-centered values; transparency and explainability; robustness, security, and safety; and accountability. These principles have been adopted by over 40 countries.
+
+E3 operationalizes these principles within a software engineering methodology, translating high-level principles into actionable quality criteria and implementation guidelines.
+
+\subsection{MLOps and AI Engineering Practices}
+
+\subsubsection{MLOps Methodology}
+
+MLOps \cite{sridhar2022mlops} extends DevOps practices for machine learning systems, emphasizing continuous integration and deployment for ML pipelines, model versioning, experiment tracking, and monitoring for model drift. MLOps addresses the operational challenges of deploying and maintaining ML systems but provides limited guidance on quality criteria.
+
+The E3 Framework complements MLOps by providing the quality model that MLOps practices aim to achieve. Where MLOps specifies \emph{how} to deploy and monitor models, E3 specifies \emph{what} quality dimensions to measure and optimize.
+
+\subsubsection{ML-Specific Quality Models}
+
+Recent work has begun addressing ML-specific quality concerns. Nakajima et al. \cite{nakajima2022quality} proposed a quality model for machine learning systems that extends ISO 25010 with ML-specific characteristics including data quality, model quality, and system quality. Martínez-Fernández et al. \cite{martinez2022software} conducted a comprehensive survey of software engineering for AI-enabled systems, identifying key challenges and practices.
+
+The E3 Framework builds on this work while providing a more comprehensive integration with traditional software engineering principles. Rather than treating ML quality as a separate domain, E3 extends established principles (SOLID, DRY, KISS) to address ML-specific concerns.
+
+\subsubsection{Technical Debt in ML Systems}
+
+Sculley et al. \cite{sculley2015hidden} identified unique categories of technical debt in ML systems: boundary erosion, entanglement, hidden feedback loops, undeclared consumers, and pipeline jungles. Amershi et al. \cite{amershi2019software} extended this analysis through empirical studies at Microsoft.
+
+E3 addresses technical debt through its efficiency pillar, which emphasizes modularity, maintainability, and resource optimization. The framework provides criteria for identifying and prioritizing debt reduction efforts across all three pillars.
+
+\subsection{Explainable AI and Human-AI Interaction}
+
+\subsubsection{Explainability Methods}
+
+The field of explainable AI (XAI) has produced numerous methods for interpreting model behavior, including LIME \cite{ribeiro2016should}, SHAP \cite{lundberg2017unified}, and attention visualization. Doshi-Velez and Kim \cite{doshivelez2017towards} argued for a rigorous science of interpretability, emphasizing the need for formal evaluation criteria.
+
+E3 incorporates explainability within its elegance pillar, treating it as a quality dimension alongside usability and aesthetic integrity. This integration ensures that explainability is considered alongside other quality concerns rather than as a separate optimization objective.
+
+\subsubsection{Human-AI Interaction}
+
+Abdul et al. \cite{abdul2018trends} surveyed trends in explainable, accountable, and intelligible systems from an HCI perspective, identifying design patterns for human-AI interaction. Norman's foundational work on cognitive ergonomics \cite{norman2013design} and Nielsen's usability heuristics \cite{nielsen1994enhancing} provide principles that E3 extends to AI outputs.
+
+The elegance pillar synthesizes this HCI research with XAI methods, providing a unified framework for evaluating the cognitive accessibility of AI systems.
+
+\subsection{Fairness and Bias in AI}
+
+\subsubsection{Fairness Definitions and Metrics}
+
+Research on fairness in machine learning has produced numerous definitions including demographic parity, equalized odds, calibration, and individual fairness \cite{mehrabi2021survey}. Barocas and Selbst \cite{barocas2016big} analyzed the legal implications of algorithmic discrimination.
+
+E3 incorporates fairness within its effectiveness pillar, treating it as a component of ethical compliance alongside alignment and governance. The framework does not prescribe specific fairness metrics but requires teams to define and document fairness constraints appropriate to their domain.
+
+\subsubsection{Auditing and Accountability}
+
+Raji et al. \cite{raji2020closing} proposed an end-to-end framework for internal algorithmic auditing, emphasizing the need for systematic evaluation throughout the ML lifecycle. Mitchell et al. \cite{mitchell2019model} introduced Model Cards for documenting model performance across demographic groups.
+
+E3 integrates these practices within its methodology, requiring fairness audits as part of the definition of done and documentation (Model Cards, Datasheets) as artifacts of the development process.
+
+\subsection{Positioning E3}
+
+The E3 Framework occupies a unique position in this landscape:
+
+\begin{enumerate}[leftmargin=2em]
+    \item \textbf{Synthesis:} E3 synthesizes principles from traditional software engineering (SOLID, DRY, KISS) with AI-specific concerns (alignment, fairness, explainability, sustainability).
+    
+    \item \textbf{Integration:} Rather than treating AI quality as a separate domain, E3 extends established quality models to address probabilistic systems.
+    
+    \item \textbf{Operationalization:} E3 provides actionable criteria and implementation guidelines, bridging the gap between high-level principles (OECD, EU AI Act) and engineering practice.
+    
+    \item \textbf{Complementarity:} E3 complements existing methodologies (Agile, DevOps, MLOps) by providing the quality model that these processes aim to achieve.
+\end{enumerate}
+
+Table~\ref{tab:framework_comparison} summarizes how E3 relates to major frameworks and standards.
+
+\begin{table*}[t]
+\centering
+\caption{E3 Framework Positioning Relative to Existing Frameworks}
+\label{tab:framework_comparison}
+\small
+\begin{tabularx}{\textwidth}{@{}l X X X@{}}
+\toprule
+\textbf{Framework} & \textbf{Focus} & \textbf{Relationship to E3} & \textbf{E3 Contribution} \\
+\midrule
+ISO 25010 & Quality characteristics for traditional software & E3 extends with AI-specific concerns & Alignment, fairness, sustainability, explainability \\
+McCall & Quality factors for software products & E3 maps and extends factors & Ethical compliance, carbon footprint, XAI \\
+EU AI Act & Regulatory compliance for AI systems & E3 operationalizes requirements & Practical implementation methodology \\
+NIST AI RMF & Risk management for AI & E3 provides quality criteria & Outcome-oriented quality model \\
+IEEE 7000 & Ethical system design process & E3 integrates ethics as quality dimension & First-class ethical compliance metric \\
+MLOps & Operational practices for ML & E3 provides quality model & Quality criteria for MLOps practices \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+The following sections operationalize E3 through detailed metrics, illustrative examples, and integration with existing development methodologies.

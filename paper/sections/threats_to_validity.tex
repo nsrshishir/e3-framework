@@ -1,0 +1,161 @@
+% ============================================================
+% THREATS TO VALIDITY
+% ============================================================
+
+\section{Threats to Validity}
+\label{sec:threats_to_validity}
+
+As a conceptual framework paper without empirical validation, this work faces several categories of validity threats. We address these transparently to guide future research and appropriate framework adoption.
+
+\subsection{Internal Validity}
+
+\subsubsection{Theoretical Consistency}
+
+The E3 Framework synthesizes principles from multiple disciplines (software engineering, AI ethics, HCI, cognitive science). While this synthesis is intentional, it introduces the risk of conceptual inconsistency or category errors.
+
+\textbf{Mitigation:} We have provided formal definitions (Section~\ref{sec:formal_definitions}) that establish precise semantics for each pillar and component. The mapping to existing quality models (Tables~\ref{tab:iso25010_comparison} and \ref{tab:mccall_comparison}) demonstrates consistency with established frameworks.
+
+\textbf{Remaining Threat:} The boundaries between pillars may blur in practice. For example, explainability could be argued to belong to effectiveness (enabling correct use) or efficiency (reducing cognitive load) rather than elegance. We acknowledge that categorization involves judgment and encourage practitioners to adapt the framework to their context.
+
+\subsubsection{Metric Definition Validity}
+
+The metrics proposed in Section~\ref{sec:metrics_operationalization} operationalize abstract concepts into measurable quantities. This operationalization may not capture the full richness of the underlying concepts.
+
+\textbf{Mitigation:} We have selected metrics with established validity (e.g., SUS for usability, demographic parity for fairness) and provided multiple metrics per concept to enable triangulation.
+
+\textbf{Remaining Threat:} Some metrics (e.g., Intent Alignment Score) rely on human judgment, introducing subjectivity. Others (e.g., carbon footprint) depend on infrastructure-specific factors that complicate comparison. Future work should validate these metrics through inter-rater reliability studies and standardization efforts.
+
+\subsection{External Validity}
+
+\subsubsection{Generalizability}
+
+The E3 Framework claims applicability across diverse system types (traditional software, ML systems, LLM applications, autonomous agents). This broad scope raises questions about whether a single framework can meaningfully address such heterogeneous domains.
+
+\textbf{Mitigation:} The illustrative examples (Section~\ref{sec:illustrative_examples}) demonstrate framework application across four distinct domains with different weight vectors and trade-off profiles. The framework's structure—abstract pillars with domain-specific instantiations—supports adaptation.
+
+\textbf{Remaining Threat:} The examples are hypothetical; real-world application may reveal domain-specific challenges not anticipated in our analysis. We explicitly position E3 as a ``conceptual framework'' requiring empirical validation rather than a validated methodology.
+
+\subsubsection{Cultural and Contextual Bias}
+
+The framework reflects perspectives primarily from Western software engineering practice and AI ethics discourse. Quality priorities and ethical norms vary across cultures and contexts.
+
+\textbf{Mitigation:} The weight vector mechanism allows explicit customization of pillar priorities. The fairness metrics include domain-adjustable thresholds.
+
+\textbf{Remaining Threat:} The framework's emphasis on certain values (individual autonomy, transparency) may not align with all cultural contexts. The definition of ``elegance'' may reflect aesthetic preferences not universally shared. Future work should engage diverse perspectives in framework refinement.
+
+\subsection{Construct Validity}
+
+\subsubsection{Completeness of Quality Dimensions}
+
+The three-pillar structure may omit important quality dimensions not captured by Effectiveness, Efficiency, or Elegance.
+
+\textbf{Mitigation:} The mapping to ISO 25010 (Table~\ref{tab:iso25010_comparison}) demonstrates that E3 covers all eight ISO quality characteristics, either directly or through extensions. The mapping to McCall (Table~\ref{tab:mccall_comparison}) similarly demonstrates coverage of all eleven McCall factors.
+
+\textbf{Remaining Threat:} Quality dimensions may emerge that are not anticipated by current frameworks. For example, ``resilience to adversarial manipulation'' spans security ($E_1$) and robustness ($E_1$) but may deserve separate treatment. The framework should evolve as the field advances.
+
+\subsubsection{Trade-off Function Validity}
+
+The linear trade-off function $T(\mathbf{q}) = w_1 E_1 + w_2 E_2 + w_3 E_3$ assumes pillar independence and linear compensation. This may not reflect real-world quality relationships.
+
+\textbf{Mitigation:} Proposition~\ref{prop:interdependence} explicitly identifies that pillars are not independent. The geometric mean used for $E_3$ (Definition~\ref{def:elegance}) reflects non-compensatory relationships among elegance components.
+
+\textbf{Remaining Threat:} The actual shape of trade-off curves between pillars is unknown and likely domain-specific. Linear aggregation is a simplifying assumption that enables decision-making but may not capture threshold effects or non-linear interactions. Future empirical work should investigate actual trade-off relationships.
+
+\subsection{Reliability}
+
+\subsubsection{Reproducibility of Assessments}
+
+Different teams applying the E3 Framework to the same system may produce different quality scores, particularly for subjective metrics.
+
+\textbf{Mitigation:} We have provided specific formulas for quantitative metrics and structured protocols for human evaluation. The weight vector must be explicitly documented, enabling others to understand and critique priority decisions.
+
+\textbf{Remaining Threat:} Without standardized tools and training, framework application may vary significantly. We recommend developing E3 assessment protocols, training materials, and potentially automated tooling to improve reliability.
+
+\subsubsection{Framework Evolution}
+
+As AI technology and software engineering practice evolve, the framework may require updates that complicate longitudinal comparisons.
+
+\textbf{Mitigation:} The core pillar structure ($E_1$, $E_2$, $E_3$) is designed to be stable, while component definitions and metrics can evolve. Version control of framework specifications would enable consistent application over time.
+
+\textbf{Remaining Threat:} Rapid AI advancement may outpace framework updates. For example, new model architectures may introduce quality concerns not currently represented.
+
+\subsection{Ecological Validity}
+
+\subsubsection{Laboratory vs. Real-World Application}
+
+The illustrative examples, while detailed, remain hypothetical scenarios rather than real case studies. Framework behavior in actual development contexts may differ.
+
+\textbf{Mitigation:} Examples are grounded in realistic domain constraints and reference actual standards (ISO 26262, FDA regulations, EU AI Act). Trade-off decisions reflect documented industry challenges.
+
+\textbf{Remaining Threat:} Without empirical validation, confirmation that the framework improves software quality outcomes or integrates smoothly with existing development processes remains pending. The hypotheses in Section~\ref{sec:formal_definitions} provide testable predictions for future research.
+
+\subsubsection{Practitioner Adoption Barriers}
+
+Framework adoption faces practical barriers: learning curve, tooling requirements, organizational resistance, and integration with existing processes.
+
+\textbf{Mitigation:} The framework is designed to complement rather than replace existing methodologies (Agile, DevOps, MLOps). Metrics can be incrementally adopted.
+
+\textbf{Remaining Threat:} Complex frameworks often fail to achieve adoption regardless of theoretical merit. Success requires not just sound theory but effective dissemination, training, and tooling. We encourage the community to develop practical resources for E3 adoption.
+
+\subsection{Positioning and Scope Limitations}
+
+\subsubsection{Conceptual Framework Status}
+
+This paper presents E3 as a conceptual framework, not a validated methodology. The distinction is important:
+
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{Conceptual Framework:} Provides structure for thinking about quality; defines concepts and relationships; generates hypotheses.
+    \item \textbf{Validated Methodology:} Has demonstrated effectiveness through controlled studies; provides proven procedures; has established reliability.
+\end{itemize}
+
+E3 currently occupies the former category. The testable hypotheses (H1-H4) provide a research agenda for validation.
+
+\subsubsection{Scope Boundaries}
+
+The framework addresses software quality for AI-enabled systems but does not cover:
+
+\begin{itemize}[leftmargin=2em]
+    \item Hardware quality considerations
+    \item Data quality independent of model quality
+    \item Organizational and process quality (e.g., team capability, governance structures)
+    \item Business model sustainability
+\end{itemize}
+
+These scope boundaries are intentional but may limit framework applicability in contexts where these factors are critical.
+
+\subsection{Summary of Validity Threats}
+
+Table~\ref{tab:validity_summary} summarizes validity threats and mitigation status.
+
+\begin{table}[h]
+\centering
+\caption{Summary of Validity Threats}
+\label{tab:validity_summary}
+\small
+\begin{tabularx}{\columnwidth}{@{}l X X@{}}
+\toprule
+\textbf{Category} & \textbf{Key Threats} & \textbf{Mitigation Status} \\
+\midrule
+Internal & Conceptual consistency, metric validity & Formal definitions provided; empirical validation needed \\
+External & Generalizability, cultural bias & Examples demonstrate adaptation; diverse validation needed \\
+Construct & Completeness, trade-off function & ISO/McCall mapping; non-linearity acknowledged \\
+Reliability & Reproducibility, evolution & Protocols specified; tooling needed \\
+Ecological & Real-world application, adoption & Hypothetical examples; empirical studies needed \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Research Agenda}
+
+To address these validity threats, the following research agenda is proposed:
+
+\begin{enumerate}[leftmargin=2em]
+    \item \textbf{Case Studies:} Apply E3 to real-world systems across domains; document challenges and adaptations.
+    \item \textbf{Controlled Experiments:} Test hypotheses H1-H4 through controlled comparison of E3-guided vs. ad-hoc quality approaches.
+    \item \textbf{Metric Validation:} Establish inter-rater reliability for subjective metrics; validate predictive validity against downstream outcomes.
+    \item \textbf{Tool Development:} Create automated assessment tools to improve reliability and reduce adoption barriers.
+    \item \textbf{Cross-Cultural Studies:} Investigate framework applicability across different cultural and organizational contexts.
+    \item \textbf{Longitudinal Studies:} Track framework evolution and long-term impact on software quality outcomes.
+\end{enumerate}
+
+This transparent acknowledgment of limitations positions E3 as a contribution to ongoing discourse rather than a definitive solution. We invite the community to validate, critique, and extend the framework through empirical research.

@@ -1,0 +1,17 @@
+# Hybrid Licensing Policy: E3 Framework
+
+The E3 Framework (Effective, Efficient, Elegant) uses a dual-license model to protect academic integrity while promoting community innovation.
+
+## 1. Code & Software (Apache License 2.0)
+The following directories and their contents are licensed under the **Apache License 2.0**:
+- e3-evaluator/
+- examples/
+- scripts/ (if any)
+
+## 2. Documentation & Research (CC BY 4.0)
+The following directories and their contents are licensed under the **Creative Commons Attribution 4.0 International (CC BY 4.0)**:
+- framework/
+- paper/
+- figures/
+- tables/
+

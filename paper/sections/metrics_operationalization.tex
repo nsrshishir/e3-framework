@@ -1,0 +1,450 @@
+% ============================================================
+% METRICS OPERATIONALIZATION
+% ============================================================
+
+\section{Metrics Operationalization}
+\label{sec:metrics_operationalization}
+
+This section operationalizes the E3 Framework by defining specific, measurable metrics for each pillar. Each metric includes a formal definition, measurement formula, target thresholds, and data collection methodology. These metrics enable teams to quantify quality and track improvements over time.
+
+\subsection{Metrics Framework Overview}
+
+The E3 metrics framework follows three principles:
+
+\begin{enumerate}[leftmargin=2em]
+    \item \textbf{Measurability:} Each metric can be quantified through automated or semi-automated means.
+    \item \textbf{Actionability:} Metrics inform specific engineering decisions and improvements.
+    \item \textbf{Context-sensitivity:} Target thresholds adapt to domain requirements and constraints.
+\end{enumerate}
+
+\subsection{Effectiveness Metrics (\texorpdfstring{$E_1$}{E1})}
+
+This section defines metrics for the Effectiveness pillar, encompassing functional correctness, AI alignment, and fairness. Each metric includes a formal definition, measurement formula, target threshold, and collection methodology.
+
+\subsubsection{Functional Correctness Metrics}
+
+\begin{table}[!htbp]
+\centering
+\caption{Functional Correctness Metrics}
+\label{tab:functional_metrics}
+\small
+\begin{tabularx}{\linewidth}{@{}l X@{}}
+\toprule
+\textbf{Metric} & \textbf{Specification} \\
+\midrule
+\textbf{Accuracy} & \\
+Definition & Proportion of correct predictions across test set \\
+Formula & $\text{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN}$ \\
+Target & $\geq 0.85$ for production systems \\
+Collection & Automated evaluation on held-out test set \\
+Frequency & Per-release + continuous monitoring \\
+\addlinespace
+
+\textbf{F1 Score} & \\
+Definition & Harmonic mean of precision and recall \\
+Formula & $F_1 = 2 \cdot \frac{\text{Precision} \cdot \text{Recall}}{\text{Precision} + \text{Recall}}$ \\
+Target & $\geq 0.80$ for balanced classification \\
+Collection & Automated evaluation \\
+Frequency & Per-release \\
+\addlinespace
+
+\textbf{Task Completion Rate} & \\
+Definition & Proportion of user tasks successfully completed \\
+Formula & $\text{TCR} = \frac{\text{Completed Tasks}}{\text{Total Attempted Tasks}}$ \\
+Target & $\geq 0.90$ for user-facing systems \\
+Collection & User interaction logging \\
+Frequency & Continuous \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsubsection{AI Alignment Metrics}
+
+\begin{table}[!htbp]
+\centering
+\caption{AI Alignment Metrics}
+\label{tab:alignment_metrics}
+\small
+\begin{tabularx}{\linewidth}{@{}l X@{}}
+\toprule
+\textbf{Metric} & \textbf{Specification} \\
+\midrule
+\textbf{Intent Alignment Score} & \\
+Definition & Degree to which outputs match user intent, evaluated by human raters \\
+Formula & $\text{IAS} = \frac{1}{N}\sum_{i=1}^{N} \mathbb{1}[\text{output}_i \text{ matches intent}_i]$ \\
+Target & $\geq 0.85$ for production LLM applications \\
+Collection & Human evaluation on sample \\
+Frequency & Per-release + random sampling in production \\
+\addlinespace
+
+\textbf{Constraint Satisfaction Rate} & \\
+Definition & Proportion of outputs satisfying specified constraints \\
+Formula & $\text{CSR} = \frac{\text{Outputs meeting all constraints}}{\text{Total outputs}}$ \\
+Target & $\geq 0.95$ for constrained generation tasks \\
+Collection & Automated constraint verification \\
+Frequency & Continuous \\
+\addlinespace
+
+\textbf{Hallucination Rate} & \\
+Definition & Proportion of outputs containing factually incorrect claims \\
+Formula & $\text{HR} = \frac{\text{Outputs with hallucinations}}{\text{Total outputs}}$ \\
+Target & $\leq 0.05$ for factual applications \\
+Collection & Human evaluation + automated fact-checking \\
+Frequency & Per-release + production sampling \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsubsection{Fairness and Ethics Metrics}
+
+\begin{table}[!htbp]
+\centering
+\caption{Fairness and Ethics Metrics}
+\label{tab:fairness_metrics}
+\small
+\begin{tabularx}{\linewidth}{@{}l X@{}}
+\toprule
+\textbf{Metric} & \textbf{Specification} \\
+\midrule
+\textbf{Demographic Parity Difference} & \\
+Definition & Difference in positive prediction rates across groups \\
+Formula & $|\Pr(\hat{Y}=1|A=0) - \Pr(\hat{Y}=1|A=1)|$ \\
+Target & $\leq 0.10$ (domain-adjustable) \\
+Collection & Automated evaluation on demographic data \\
+Frequency & Per-release + continuous monitoring \\
+\addlinespace
+
+\textbf{Equalized Odds Difference} & \\
+Definition & Difference in true positive and false positive rates across groups \\
+Formula & $\max(|TPR_{A=0} - TPR_{A=1}|, |FPR_{A=0} - FPR_{A=1}|)$ \\
+Target & $\leq 0.10$ \\
+Collection & Automated evaluation \\
+Frequency & Per-release \\
+\addlinespace
+
+\textbf{Ethical Compliance Score} & \\
+Definition & Aggregate score of adherence to ethical guidelines \\
+Formula & $ECS = \frac{1}{K}\sum_{k=1}^{K} c_k$ where $c_k \in \{0,1\}$ for each compliance check \\
+Target & $= 1.0$ (full compliance required) \\
+Collection & Checklist-based audit \\
+Frequency & Per-release + annual review \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Efficiency Metrics (\texorpdfstring{$E_2$}{E2})}
+
+This section defines metrics for the Efficiency pillar, encompassing computational resources, environmental sustainability, and token economics for LLM applications. These metrics enable teams to optimize resource utilization while maintaining quality standards.
+
+\subsubsection{Computational Resource Metrics}
+
+\begin{table}[!htbp]
+\centering
+\caption{Computational Resource Metrics}
+\label{tab:compute_metrics}
+\small
+\begin{tabularx}{\linewidth}{@{}l X@{}}
+\toprule
+\textbf{Metric} & \textbf{Specification} \\
+\midrule
+\textbf{Inference Latency} & \\
+Definition & Time to produce output for a single request \\
+Formula & $L = t_{\text{response}} - t_{\text{request}}$ \\
+Target & $p_{95} \leq 200\text{ms}$ for interactive, $\leq 1\text{s}$ for batch \\
+Collection & Automated logging \\
+Frequency & Continuous \\
+\addlinespace
+
+\textbf{Throughput} & \\
+Definition & Number of requests processed per unit time \\
+Formula & $T = \frac{\text{Requests}}{\text{Time Interval}}$ \\
+Target & Domain-specific (e.g., $\geq 1000$ req/s for high-volume) \\
+Collection & Automated logging \\
+Frequency & Continuous \\
+\addlinespace
+
+\textbf{Memory Utilization} & \\
+Definition & Peak memory consumption during inference \\
+Formula & $M_{\text{peak}} = \max(M_t)$ over time window \\
+Target & $\leq 80\%$ of allocated resources \\
+Collection & System monitoring \\
+Frequency & Continuous \\
+\addlinespace
+
+\textbf{FLOPs per Inference} & \\
+Definition & Floating-point operations required for single inference \\
+Formula & Count of multiply-add operations in forward pass \\
+Target & Minimize subject to accuracy constraints \\
+Collection & Model profiling \\
+Frequency & Per-model-version \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsubsection{Environmental Sustainability Metrics}
+
+\begin{table}[!htbp]
+\centering
+\caption{Environmental Sustainability Metrics}
+\label{tab:sustainability_metrics}
+\small
+\begin{tabularx}{\linewidth}{@{}l X@{}}
+\toprule
+\textbf{Metric} & \textbf{Specification} \\
+\midrule
+\textbf{Carbon Emissions (Training)} & \\
+Definition & kg CO$_2$ equivalent emitted during model training \\
+Formula & $C_{\text{train}} = P \cdot T \cdot CI$ where $P$ = power (kW), $T$ = time (h), $CI$ = carbon intensity \\
+Target & Minimize; document and offset \\
+Collection & Energy monitoring + carbon calculator \\
+Frequency & Per training run \\
+\addlinespace
+
+\textbf{Carbon Emissions (Inference)} & \\
+Definition & kg CO$_2$ equivalent per 1000 inferences \\
+Formula & $C_{\text{infer}} = \frac{P_{\text{infer}} \cdot CI}{\text{Throughput}}$ \\
+Target & $\leq 0.001$ kg CO$_2$e per 1000 inferences \\
+Collection & Energy monitoring \\
+Frequency & Continuous \\
+\addlinespace
+
+\textbf{Energy Efficiency Ratio} & \\
+Definition & Useful output per unit energy consumed \\
+Formula & $EER = \frac{\text{Quality Score}}{\text{Energy (kWh)}}$ \\
+Target & Maximize; track improvements over time \\
+Collection & Quality metrics + energy monitoring \\
+Frequency & Per-release \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsubsection{Token Economics Metrics (LLM-specific)}
+
+\begin{table}[!htbp]
+\centering
+\caption{Token Economics Metrics}
+\label{tab:token_metrics}
+\small
+\begin{tabularx}{\linewidth}{@{}l X@{}}
+\toprule
+\textbf{Metric} & \textbf{Specification} \\
+\midrule
+\textbf{Tokens per Query} & \\
+Definition & Average total tokens (prompt + completion) per request \\
+Formula & $TPQ = \frac{1}{N}\sum_{i=1}^{N}(tokens_{prompt,i} + tokens_{completion,i})$ \\
+Target & Minimize while maintaining quality \\
+Collection & API logging \\
+Frequency & Continuous \\
+\addlinespace
+
+\textbf{Cost per Successful Interaction} & \\
+Definition & Monetary cost per successfully completed user interaction \\
+Formula & $CPSI = \frac{\text{Total API Cost}}{\text{Successful Interactions}}$ \\
+Target & Domain-specific; track over time \\
+Collection & Cost tracking + interaction logging \\
+Frequency & Weekly aggregation \\
+\addlinespace
+
+\textbf{Retry Rate} & \\
+Definition & Proportion of requests requiring regeneration \\
+Formula & $RR = \frac{\text{Regeneration Requests}}{\text{Total Requests}}$ \\
+Target & $\leq 0.10$ \\
+Collection & User interaction logging \\
+Frequency & Continuous \\
+\addlinespace
+
+\textbf{Quality per Token} & \\
+Definition & Effectiveness score normalized by token count \\
+Formula & $QPT = \frac{\text{Effectiveness Score}}{\text{Total Tokens}} \times 1000$ \\
+Target & Maximize \\
+Collection & Quality evaluation + token logging \\
+Frequency & Per-release \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Elegance Metrics (\texorpdfstring{$E_3$}{E3})}
+
+This section defines metrics for the Elegance pillar, encompassing usability, explainability, and output quality. These metrics ensure that AI systems are not only functional and efficient but also cognitively accessible and transparent to users.
+
+\subsubsection{Usability Metrics}
+
+\begin{table}[!htbp]
+\centering
+\caption{Usability Metrics}
+\label{tab:usability_metrics}
+\small
+\begin{tabularx}{\linewidth}{@{}l X@{}}
+\toprule
+\textbf{Metric} & \textbf{Specification} \\
+\midrule
+\textbf{System Usability Scale (SUS)} & \\
+Definition & Standardized usability questionnaire score \\
+Formula & $SUS = \sum_{i=1}^{10} s_i \times 2.5$ (standard calculation) \\
+Target & $\geq 68$ (above average); $\geq 80$ for excellent \\
+Collection & User survey \\
+Frequency & Per-release + quarterly \\
+\addlinespace
+
+\textbf{Task Completion Time} & \\
+Definition & Time required for users to complete standard tasks \\
+Formula & $TCT = \text{median}(t_{\text{completion}} - t_{\text{start}})$ \\
+Target & Within 20\% of expert baseline \\
+Collection & User interaction logging \\
+Frequency & Continuous \\
+\addlinespace
+
+\textbf{Error Recovery Rate} & \\
+Definition & Proportion of user errors successfully recovered \\
+Formula & $ERR = \frac{\text{Recovered Errors}}{\text{Total Errors}}$ \\
+Target & $\geq 0.90$ \\
+Collection & User interaction logging \\
+Frequency & Continuous \\
+\addlinespace
+
+\textbf{Cognitive Load Score} & \\
+Definition & Subjective rating of mental effort required \\
+Formula & NASA-TLX or simplified scale (1-7) \\
+Target & $\leq 4$ (moderate or below) \\
+Collection & User survey \\
+Frequency & Per-release \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsubsection{Explainability Metrics}
+
+\begin{table}[!htbp]
+\centering
+\caption{Explainability Metrics}
+\label{tab:explainability_metrics}
+\small
+\begin{tabularx}{\linewidth}{@{}l X@{}}
+\toprule
+\textbf{Metric} & \textbf{Specification} \\
+\midrule
+\textbf{Explanation Coverage} & \\
+Definition & Proportion of outputs accompanied by explanations \\
+Formula & $EC = \frac{\text{Outputs with Explanations}}{\text{Total Outputs}}$ \\
+Target & $= 1.0$ for high-stakes; $\geq 0.80$ for general \\
+Collection & System logging \\
+Frequency & Continuous \\
+\addlinespace
+
+\textbf{Explanation Comprehensibility} & \\
+Definition & User rating of how understandable explanations are \\
+Formula & Mean rating on 1-5 scale from user survey \\
+Target & $\geq 4.0$ \\
+Collection & User survey \\
+Frequency & Per-release \\
+\addlinespace
+
+\textbf{Explanation Actionability} & \\
+Definition & Proportion of explanations leading to successful user action \\
+Formula & $EA = \frac{\text{Actions Taken Based on Explanation}}{\text{Explanations Provided}}$ \\
+Target & $\geq 0.70$ \\
+Collection & User interaction logging \\
+Frequency & Continuous \\
+\addlinespace
+
+\textbf{Trust Score} & \\
+Definition & User self-reported trust in system outputs \\
+Formula & Mean rating on validated trust scale (1-7) \\
+Target & $\geq 5.0$ \\
+Collection & User survey \\
+Frequency & Quarterly \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsubsection{Output Quality Metrics}
+
+\begin{table}[!htbp]
+\centering
+\caption{Output Quality Metrics}
+\label{tab:output_quality_metrics}
+\small
+\begin{tabularx}{\linewidth}{@{}l X@{}}
+\toprule
+\textbf{Metric} & \textbf{Specification} \\
+\midrule
+\textbf{Output Coherence} & \\
+Definition & Rating of logical consistency and flow in generated content \\
+Formula & Mean human rating on 1-5 scale \\
+Target & $\geq 4.0$ \\
+Collection & Human evaluation on sample \\
+Frequency & Per-release \\
+\addlinespace
+
+\textbf{Format Compliance} & \\
+Definition & Proportion of outputs matching specified format \\
+Formula & $FC = \frac{\text{Correctly Formatted Outputs}}{\text{Total Outputs}}$ \\
+Target & $\geq 0.95$ \\
+Collection & Automated format verification \\
+Frequency & Continuous \\
+\addlinespace
+
+\textbf{Information Density} & \\
+Definition & Ratio of useful information to total output length \\
+Formula & $ID = \frac{\text{Information Units}}{\text{Word Count}}$ \\
+Target & Domain-specific; optimize for clarity \\
+Collection & Human evaluation \\
+Frequency & Per-release \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Integrated Quality Score}
+
+The E3 Framework provides an integrated quality score that combines metrics across all three pillars:
+
+\begin{equation}
+T(\mathbf{q}) = w_1 E_1 + w_2 E_2 + w_3 E_3
+\end{equation}
+
+where each pillar score is computed as a weighted aggregate of its component metrics:
+
+\begin{align}
+E_1 &= \alpha_1 \cdot \text{Functional} + \alpha_2 \cdot \text{Alignment} + \alpha_3 \cdot \text{Fairness} \\
+E_2 &= \beta_1 \cdot \text{Compute} + \beta_2 \cdot \text{Sustainability} + \beta_3 \cdot \text{TokenEcon} \\
+E_3 &= \gamma_1 \cdot \text{Usability} + \gamma_2 \cdot \text{Explainability} + \gamma_3 \cdot \text{OutputQuality}
+\end{align}
+
+\subsection{Metrics Collection Infrastructure}
+
+Implementing E3 metrics requires appropriate infrastructure:
+
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{Automated Collection:} CI/CD pipeline integration for per-release metrics
+    \item \textbf{Continuous Monitoring:} Real-time dashboards for production metrics
+    \item \textbf{Human Evaluation:} Structured protocols for subjective metrics
+    \item \textbf{Data Governance:} Privacy-preserving collection and storage
+\end{itemize}
+
+Table~\ref{tab:metrics_summary} provides a comprehensive summary of all E3 metrics.
+
+\begin{table*}[t]
+\centering
+\caption{E3 Metrics Summary}
+\label{tab:metrics_summary}
+\small
+\begin{tabularx}{\textwidth}{@{}l l X l@{}}
+\toprule
+\textbf{Pillar} & \textbf{Category} & \textbf{Key Metrics} & \textbf{Collection} \\
+\midrule
+$E_1$: Effectiveness & Functional & Accuracy, F1, Task Completion Rate & Automated \\
+& Alignment & Intent Alignment, Constraint Satisfaction, Hallucination Rate & Human + Automated \\
+& Fairness & Demographic Parity, Equalized Odds, Ethical Compliance & Automated + Audit \\
+\addlinespace
+$E_2$: Efficiency & Compute & Latency, Throughput, Memory, FLOPs & Automated \\
+& Sustainability & Carbon (Training/Inference), Energy Efficiency & Monitoring \\
+& Token Economics & Tokens/Query, Cost/Success, Retry Rate, Quality/Token & API Logging \\
+\addlinespace
+$E_3$: Elegance & Usability & SUS, Task Time, Error Recovery, Cognitive Load & Survey + Logging \\
+& Explainability & Coverage, Comprehensibility, Actionability, Trust & Survey + Logging \\
+& Output Quality & Coherence, Format Compliance, Information Density & Human + Automated \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+This operationalization enables teams to measure, track, and improve software quality across all three E3 pillars, providing the quantitative foundation for evidence-based engineering decisions.

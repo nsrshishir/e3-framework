@@ -1,0 +1,75 @@
+% ============================================================
+% ISO 25010 COMPARISON TABLE
+% ============================================================
+
+\begin{table*}[t]
+\centering
+\caption{Detailed Comparison: E3 Framework vs ISO/IEC 25010 Quality Model}
+\label{tab:iso25010_comparison}
+\small
+\begin{tabularx}{\textwidth}{@{}l X X X@{}}
+\toprule
+\textbf{ISO 25010 Characteristic} & \textbf{Definition} & \textbf{E3 Mapping} & \textbf{E3 Extensions for AI} \\
+\midrule
+
+\textbf{Functional Suitability} & 
+Degree to which a product or system provides functions that meet stated and implied needs when used under specified conditions &
+\textbf{$E_1$ (Effectiveness)}: Core alignment with stakeholder requirements &
+AI alignment (ensuring systems pursue genuine user intent), fairness constraints, ethical governance \\
+
+\addlinespace
+
+\textbf{Performance Efficiency} & 
+Performance relative to the amount of resources used under stated conditions &
+\textbf{$E_2$ (Efficiency)}: Computational resources, time behavior, resource utilization &
+Carbon footprint tracking, token economics for LLMs, environmental sustainability metrics \\
+
+\addlinespace
+
+\textbf{Compatibility} & 
+Degree to which a system can exchange information with other systems while sharing the same hardware/software environment &
+\textbf{$E_2$ (Efficiency)}: Interoperability reduces integration overhead &
+API standardization for ML models, cross-platform model deployment, data format compatibility \\
+
+\addlinespace
+
+\textbf{Usability} & 
+Degree to which a product or system can be used by specified users to achieve goals with effectiveness, efficiency, and satisfaction &
+\textbf{$E_3$ (Elegance)}: Cognitive accessibility, user experience &
+Explainability (XAI), confidence communication, graceful degradation for AI outputs \\
+
+\addlinespace
+
+\textbf{Reliability} & 
+Degree to which a system performs specified functions under specified conditions for a specified period of time &
+\textbf{$E_1$ (Effectiveness)}: Maturity, availability, fault tolerance &
+Robustness to distribution shift, uncertainty quantification, hallucination prevention \\
+
+\addlinespace
+
+\textbf{Security} & 
+Degree to which a product or system protects against unauthorized access and maintains confidentiality, integrity, and availability &
+\textbf{$E_1$ (Effectiveness)}: Integrity, confidentiality, non-repudiation &
+Adversarial robustness, prompt injection defense, model theft prevention, training data protection \\
+
+\addlinespace
+
+\textbf{Maintainability} & 
+Degree to which a product or system can be modified to improve, correct, or adapt to changes in environment and requirements &
+\textbf{$E_2$ (Efficiency)}: Modularity, reusability, modifiability &
+Model versioning, experiment tracking, pipeline maintainability, technical debt management in ML \\
+
+\addlinespace
+
+\textbf{Portability} & 
+Degree to which a system can be transferred from one environment to another &
+\textbf{$E_2$ (Efficiency)}: Adaptability, installability, replaceability &
+Cross-platform model deployment, hardware-agnostic inference, cloud portability for ML workloads \\
+
+\bottomrule
+\end{tabularx}
+
+\vspace{0.5em}
+\noindent\textit{Note:} ISO 25010 provides comprehensive coverage for traditional software but lacks explicit treatment of AI-specific concerns. E3 extends each characteristic with considerations unique to probabilistic, data-driven systems.
+
+\end{table*}
